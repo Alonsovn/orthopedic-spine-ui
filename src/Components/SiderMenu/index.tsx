@@ -1,6 +1,7 @@
 import { Col, Divider, Layout, Menu, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import logo from "../../Assets/logo.png";
+import { baseAppUrl } from "../../Assets/globalVariables";
 
 const { Sider } = Layout;
 
@@ -17,6 +18,10 @@ export type SiderMenuItemsProps = {
 
 const SiderMenu: React.FC<SiderMenuItemsProps> = ({ items, collapsed }) => {
   const navigate = useNavigate();
+
+  const handleOnSelectMenu = (item: { key: string }) => {
+    navigate(item.key == "/" ? baseAppUrl : `${baseAppUrl}${item.key}`);
+  };
 
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -42,7 +47,7 @@ const SiderMenu: React.FC<SiderMenuItemsProps> = ({ items, collapsed }) => {
         mode="inline"
         defaultSelectedKeys={["1"]}
         items={items}
-        onSelect={(item) => navigate(item.key)}
+        onSelect={handleOnSelectMenu}
       ></Menu>
     </Sider>
   );

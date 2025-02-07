@@ -10,16 +10,17 @@ import Testimonies from "../Testimonies";
 import { Contact } from "../Contact";
 import { Blog } from "../Blog";
 import { Galery } from "../Gallery";
+import { baseAppUrl } from "../../Assets/globalVariables";
 
 export const routes: RouteItem[] = [
-  { path: "/", element: <Home /> },
-  { path: "services", element: <Services /> },
-  { path: "testimonies", element: <Testimonies /> },
-  { path: "contact", element: <Contact /> },
-  { path: "for-business", element: <ForBusiness /> },
-  { path: "about-us", element: <AboutUs /> },
-  { path: "blog", element: <Blog /> },
-  { path: "gallery", element: <Galery /> },
+  { path: `${baseAppUrl}/`, element: <Home /> },
+  { path: `${baseAppUrl}services`, element: <Services /> },
+  { path: `${baseAppUrl}testimonies`, element: <Testimonies /> },
+  { path: `${baseAppUrl}contact`, element: <Contact /> },
+  { path: `${baseAppUrl}for-business`, element: <ForBusiness /> },
+  { path: `${baseAppUrl}about-us`, element: <AboutUs /> },
+  { path: `${baseAppUrl}blog`, element: <Blog /> },
+  { path: `${baseAppUrl}gallery`, element: <Galery /> },
   { path: "*", element: <NotFound /> },
 ];
 
