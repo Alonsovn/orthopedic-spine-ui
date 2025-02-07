@@ -1,4 +1,6 @@
-# React template using vite and ant design
+# SPA application for Orthopedic Spine
+
+## Development
 
 ## Commands
 

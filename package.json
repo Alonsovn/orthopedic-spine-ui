@@ -1,5 +1,5 @@
 {
-  "name": "react-typescript-vite-template",
+  "name": "orthopedic-spine-ui",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -9,11 +9,11 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist -b gh-pages -r https://x-access-token:${GITHUB_TOKEN}@github.com/Alonsovn/react-typescript-vite-template.git"
+    "deploy": "gh-pages -d dist -b gh-pages -r https://x-access-token:${GITHUB_TOKEN}@github.com/Alonsovn/orthopedic-spine-ui.git"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Alonsovn/react-typescript-vite-template.git"
+    "url": "https://github.com/Alonsovn/orthopedic-spine-ui.git"
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.0",
