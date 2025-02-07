@@ -55,7 +55,7 @@ const App = () => {
 
           <Footer style={{ background: isDarkMode ? "#181818" : "#F9FAFB" }}>
             <Typography>
-              <Paragraph>Footer Application</Paragraph>
+              <Paragraph>Orthopedic Spine </Paragraph>
               <Paragraph>Copyright © devteam Costa Rica</Paragraph>
             </Typography>
           </Footer>

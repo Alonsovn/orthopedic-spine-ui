@@ -1,9 +1,7 @@
-import { Dropdown, Menu, Switch } from "antd";
+import { Menu, Switch } from "antd";
 import { MenuProps } from "antd";
 import { useNavigate } from "react-router-dom";
-import "./appmenu.css";
-import { UserOutlined } from "@ant-design/icons";
-import { UserAccountMenu } from "../UserAccountMenu";
+import "./AppMenu.css";
 
 export type MenuItem = {
   key: string;
@@ -43,23 +41,9 @@ const AppMenu: React.FC<MenuItemsProps> = ({
         }}
       />
 
-      <Menu
-        mode="horizontal"
-        style={{
-          flex: 1,
-          background: "transparent",
-          borderBottom: "none",
-          justifyContent: "flex-end",
-          fontWeight: 500,
-        }}
-      >
-        <Menu.Item key="account" icon={<UserOutlined />}>
-          <UserAccountMenu />
-        </Menu.Item>
-      </Menu>
       <Switch
-        checkedChildren="🌙 Dark"
-        unCheckedChildren="🌞 Light"
+        checkedChildren="🌙 Oscuro"
+        unCheckedChildren="🌞 Claro"
         checked={isDarkMode}
         onChange={onThemeToggle}
         className={`theme-switch ${isDarkMode ? "dark" : "light"}`}

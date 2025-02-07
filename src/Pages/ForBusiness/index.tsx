@@ -1,5 +1,5 @@
 const ForBusiness = () => {
-  return <div>For business </div>;
+  return <div>Empresarial </div>;
 };
 
 export default ForBusiness;

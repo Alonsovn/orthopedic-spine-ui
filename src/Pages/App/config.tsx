@@ -24,21 +24,21 @@ export const items: MenuItem[] = [
   {
     key: "home",
     icon: <HomeOutlined />,
-    label: "Home",
+    label: "Inicio",
   },
   {
     key: "services",
     icon: <AlignLeftOutlined />,
-    label: "Services",
+    label: "Servicios",
   },
   {
     key: "about-us",
     icon: <AlignCenterOutlined />,
-    label: "About Us",
+    label: "Acerca de",
   },
   {
     key: "for-business",
     icon: <AlignRightOutlined />,
-    label: "For Business",
+    label: "Empresarial",
   },
 ];
