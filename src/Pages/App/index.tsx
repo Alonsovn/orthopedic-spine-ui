@@ -2,66 +2,59 @@ import "antd/dist/reset.css"; // Import Ant Design CSS
 import { BrowserRouter as Router } from "react-router-dom";
 
 import "./App.css";
-import { AppMenu } from "../../Components/AppMenu";
 import { AppRoutes } from "../../Components/AppRoutes";
-import { items, routes } from "./config";
-import { ConfigProvider, Layout, theme, Typography } from "antd";
+import { routes, siderMenuitems } from "./config";
 import { useState } from "react";
-import Paragraph from "antd/es/typography/Paragraph";
+import { SiderMenu } from "../../Components/SiderMenu";
+import { Button, Layout, theme } from "antd";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 const App = () => {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
-
-  const handleToggleTheme = (checked: boolean) => {
-    setIsDarkMode(checked);
-  };
+  const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
   return (
-    <ConfigProvider
-      theme={{
-        algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
-      }}
-    >
-      <Layout style={{ height: "100vh", width: "100%" }}>
-        <Router>
-          <Header
+    <Layout style={{ height: "100vh", width: "100%" }}>
+      <SiderMenu items={siderMenuitems} collapsed={collapsed} />
+      <Layout>
+        <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              background: isDarkMode ? "#181818" : "#F9FAFB",
-              padding: "10px 20px",
+              fontSize: "16px",
+              width: 64,
+              height: 64,
+              marginLeft: "10px",
             }}
-          >
-            <AppMenu
-              items={items}
-              isDarkMode={isDarkMode}
-              onThemeToggle={handleToggleTheme}
-            />
-          </Header>
-
-          <Content
-            style={{
-              padding: "40px",
-              margin: "5px",
-              background: isDarkMode ? "#181818" : "#f5f5f5",
-              color: isDarkMode ? "#ffffff" : "#000000",
-            }}
-          >
-            <AppRoutes routes={routes} />
-          </Content>
-
-          <Footer style={{ background: isDarkMode ? "#181818" : "#F9FAFB" }}>
-            <Typography>
-              <Paragraph>Orthopedic Spine</Paragraph>
-              <Paragraph>Copyright © devteam Costa Rica</Paragraph>
-            </Typography>
-          </Footer>
-        </Router>
+          />
+        </Header>
+        <Content
+          style={{
+            margin: "5px 10px",
+            padding: 24,
+            minHeight: 280,
+            overflowY: "scroll",
+            backgroundColor: "white",
+            borderRadius: 10,
+          }}
+        >
+          <AppRoutes routes={routes} />
+        </Content>
       </Layout>
-    </ConfigProvider>
+    </Layout>
   );
 };
 
