@@ -2,6 +2,8 @@ import { Col, Divider, Layout, Menu, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import logo from "../../Assets/logo.png";
 import { baseAppUrl } from "../../Assets/globalVariables";
+import { useSelector } from "react-redux";
+import { RootState } from "../../Redux/store";
 
 const { Sider } = Layout;
 
@@ -13,11 +15,13 @@ export type SiderMenuItem = {
 
 export type SiderMenuItemsProps = {
   items: SiderMenuItem[];
-  collapsed: boolean;
 };
 
-const SiderMenu: React.FC<SiderMenuItemsProps> = ({ items, collapsed }) => {
+const SiderMenu: React.FC<SiderMenuItemsProps> = ({ items }) => {
   const navigate = useNavigate();
+  const collapsed = useSelector(
+    (state: RootState) => state.ui.sideMenuCollapsed
+  );
 
   const handleOnSelectMenu = (item: { key: string }) => {
     navigate(item.key == "/" ? baseAppUrl : `${baseAppUrl}${item.key}`);

@@ -3,22 +3,28 @@ import "antd/dist/reset.css"; // Import Ant Design CSS
 import "./App.css";
 import { AppRoutes } from "../../Components/AppRoutes";
 import { routes, siderMenuitems } from "./config";
-import { useState } from "react";
 import { SiderMenu } from "../../Components/SiderMenu";
 import { Button, Layout, theme } from "antd";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../Redux/store";
+import { toggleCollapseSideMenu } from "../../Redux/Slices/uiSlice";
 
 const { Header, Content } = Layout;
 
 const App = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const dispatch = useDispatch();
+
+  const collapsed = useSelector(
+    (state: RootState) => state.ui.sideMenuCollapsed
+  );
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   return (
     <Layout style={{ height: "100vh", width: "100%" }}>
-      <SiderMenu items={siderMenuitems} collapsed={collapsed} />
+      <SiderMenu items={siderMenuitems} />
       <Layout>
         <Header
           style={{
@@ -31,7 +37,7 @@ const App = () => {
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
+            onClick={() => dispatch(toggleCollapseSideMenu())}
             style={{
               fontSize: "16px",
               width: 64,
