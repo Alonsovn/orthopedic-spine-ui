@@ -1,0 +1,22 @@
+#root {
+  text-align: center;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.header-container.light {
+  /* background: "#F9FAFB"; */
+  background: "#ddd";
+  color: "#333";
+}
+
+.header-container.dark {
+  /* background: "#181818"; */
+  background: "#333";
+  color: "#fff";
+}

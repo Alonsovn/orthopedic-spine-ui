@@ -1,0 +1,15 @@
+.theme-switch {
+  border-radius: "20px";
+  padding: "2px 10px";
+  box-shadow: "0px 1px 4px rgba(0, 0, 0, 0.2)";
+}
+
+.theme-switch.light {
+  background: "#ddd";
+  color: "#333";
+}
+
+.theme-switch.dark {
+  background: "#333";
+  color: "#fff";
+}
