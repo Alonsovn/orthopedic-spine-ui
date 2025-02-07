@@ -1,7 +1,7 @@
 import "antd/dist/reset.css"; // Import Ant Design CSS
 import { BrowserRouter as Router } from "react-router-dom";
 
-import "./app.css";
+import "./App.css";
 import { AppMenu } from "../../Components/AppMenu";
 import { AppRoutes } from "../../Components/AppRoutes";
 import { items, routes } from "./config";
@@ -55,7 +55,7 @@ const App = () => {
 
           <Footer style={{ background: isDarkMode ? "#181818" : "#F9FAFB" }}>
             <Typography>
-              <Paragraph>Orthopedic Spine </Paragraph>
+              <Paragraph>Orthopedic Spine</Paragraph>
               <Paragraph>Copyright © devteam Costa Rica</Paragraph>
             </Typography>
           </Footer>
