@@ -1,14 +1,14 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-export type RouteItem = {
+export interface RouteItem {
   path: string;
   element: React.ReactNode;
-};
+}
 
-export type AppRoutesProps = {
+export interface AppRoutesProps {
   routes: RouteItem[];
-};
+}
 
 const AppRoutes: React.FC<AppRoutesProps> = ({ routes }) => {
   return (
