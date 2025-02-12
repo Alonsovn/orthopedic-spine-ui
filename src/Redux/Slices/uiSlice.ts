@@ -1,18 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  sideMenuCollapsed: false,
+interface UiState {
+  siderMenuCollapsed: boolean;
+}
+
+const initialState: UiState = {
+  siderMenuCollapsed: false,
 };
 
 const uiSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
-    toggleCollapseSideMenu: (state) => {
-      state.sideMenuCollapsed = !state.sideMenuCollapsed;
+    toggleCollapseSiderMenu: (state) => {
+      // state.siderMenuCollapsed = !state.siderMenuCollapsed;
+      return { ...state, siderMenuCollapsed: !state.siderMenuCollapsed };
     },
   },
 });
 
-export const { toggleCollapseSideMenu } = uiSlice.actions;
+export const { toggleCollapseSiderMenu } = uiSlice.actions;
 export default uiSlice.reducer;

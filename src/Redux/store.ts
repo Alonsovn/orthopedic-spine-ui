@@ -6,16 +6,14 @@ import uiReducer from "./Slices/uiSlice";
 
 export const store = configureStore({
   reducer: {
-    // Add the generated reducer as a specific top-level slice
     [backendServiceApi.reducerPath]: backendServiceApi.reducer,
     user: userReducer,
     ui: uiReducer,
   },
 
-  // Adding the api middleware enables caching, invalidation, polling,
-  // and other useful features of `rtk-query`.
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(backendServiceApi.middleware),
+  devTools: import.meta.env.MODE !== "production", // Enable Redux DevTools only in development
 });
 
 setupListeners(store.dispatch);
