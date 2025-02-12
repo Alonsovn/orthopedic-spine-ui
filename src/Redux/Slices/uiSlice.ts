@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  sideMenuCollapsed: false,
+  siderMenuCollapsed: false,
 };
 
 const uiSlice = createSlice({
@@ -9,7 +9,7 @@ const uiSlice = createSlice({
   initialState,
   reducers: {
     toggleCollapseSideMenu: (state) => {
-      state.sideMenuCollapsed = !state.sideMenuCollapsed;
+      state.siderMenuCollapsed = !state.siderMenuCollapsed;
     },
   },
 });

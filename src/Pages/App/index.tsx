@@ -16,7 +16,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   const collapsed = useSelector(
-    (state: RootState) => state.ui.sideMenuCollapsed
+    (state: RootState) => state.ui.siderMenuCollapsed
   );
   const {
     token: { colorBgContainer },
