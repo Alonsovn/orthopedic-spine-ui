@@ -6,15 +6,15 @@ import { RootState } from "../../Redux/store";
 
 const { Sider } = Layout;
 
-export type SiderMenuItem = {
+export interface SiderMenuItem {
   key: string;
   icon: React.ReactNode;
   label: string;
-};
+}
 
-export type SiderMenuItemsProps = {
+export interface SiderMenuItemsProps {
   items: SiderMenuItem[];
-};
+}
 
 const SiderMenu: React.FC<SiderMenuItemsProps> = ({ items }) => {
   const navigate = useNavigate();
