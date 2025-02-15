@@ -7,6 +7,7 @@ import { SiderMenu } from "../../Components/SiderMenu";
 import { Layout } from "antd";
 import { AppHeader } from "../../Components/AppHeader";
 import { AppFooter } from "../../Components/AppFooter";
+import { AppFloatButton } from "../../Components/AppFloatButton";
 
 const { Content } = Layout;
 
@@ -30,6 +31,7 @@ const App = () => {
         </Content>
         <AppFooter />
       </Layout>
+      <AppFloatButton />
     </Layout>
   );
 };
