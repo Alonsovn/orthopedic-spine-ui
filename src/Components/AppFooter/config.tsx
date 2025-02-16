@@ -1,13 +1,12 @@
 import {
   FacebookOutlined,
   InstagramOutlined,
-  WhatsAppOutlined,
   YoutubeOutlined,
 } from "@ant-design/icons";
 
 const ICON_SIZE = 24;
 
-interface IconFooter {
+export interface AppIcon {
   id: number;
   href: string;
   target: string;
@@ -15,7 +14,7 @@ interface IconFooter {
   icon: React.ReactNode;
 }
 
-export const iconsFooter: readonly IconFooter[] = [
+export const iconsFooter: readonly AppIcon[] = [
   {
     id: 1,
     href: "https://www.facebook.com/share/12FDcXXvESd/",
@@ -41,15 +40,6 @@ export const iconsFooter: readonly IconFooter[] = [
     rel: "noopener noreferrer",
     icon: (
       <YoutubeOutlined style={{ fontSize: ICON_SIZE, marginRight: "10px" }} />
-    ),
-  },
-  {
-    id: 4,
-    href: "https://web.whatsapp.com/",
-    target: "_blank",
-    rel: "noopener noreferrer",
-    icon: (
-      <WhatsAppOutlined style={{ fontSize: ICON_SIZE, marginRight: "10px" }} />
     ),
   },
 ];
