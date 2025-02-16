@@ -47,7 +47,7 @@ const AppCarousel: React.FC<ServicesCardsProps> = ({ servicesCards }) => {
               <Col span={24}>
                 <Card
                   hoverable
-                  style={{ width: "60%" }}
+                  style={{ width: "90%" }}
                   cover={
                     <img alt={service.alt} src={service.image} height={180} />
                   }
