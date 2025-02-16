@@ -1,5 +1,5 @@
-const Galery = () => {
+const Gallery = () => {
   return <div>Galeria </div>;
 };
 
-export { Galery };
+export { Gallery };
