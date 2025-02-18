@@ -1,9 +1,9 @@
-import { ServicesCard } from ".";
 import brain from "../../Assets/images/brain.png";
 import column from "../../Assets/images/column.png";
 import rehabilitation from "../../Assets/images/rehabilitation.png";
 import hands from "../../Assets/images/hands.png";
 import legs from "../../Assets/images/legs.png";
+import { ServicesCard } from "../../Components/AppCarousel/types";
 
 export const servicesCardsItems: ServicesCard[] = [
   {

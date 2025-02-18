@@ -10,6 +10,14 @@ import { AppFooter } from "../../Components/AppFooter";
 import { AppFloatButton } from "../../Components/AppFloatButton";
 
 const { Content } = Layout;
+const contentStyle: React.CSSProperties = {
+  margin: "5px 10px",
+  padding: 24,
+  minHeight: 280,
+  overflowY: "scroll",
+  backgroundColor: "white",
+  borderRadius: 10,
+};
 
 const App = () => {
   return (
@@ -17,16 +25,7 @@ const App = () => {
       <SiderMenu items={siderMenuitems} />
       <Layout>
         <AppHeader />
-        <Content
-          style={{
-            margin: "5px 10px",
-            padding: 24,
-            minHeight: 280,
-            overflowY: "scroll",
-            backgroundColor: "white",
-            borderRadius: 10,
-          }}
-        >
+        <Content style={contentStyle}>
           <AppRoutes routes={routes} />
         </Content>
         <AppFooter />

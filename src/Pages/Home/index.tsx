@@ -1,8 +1,9 @@
 import { Typography } from "antd";
-import { AppCarousel } from "../../Components/AppCarousel";
 import { Content } from "antd/es/layout/layout";
-import { servicesCardsItems } from "../../Components/AppCarousel/config";
+import { servicesCardsItems } from "./config";
 import { LocationSchedule } from "../../Components/LocationSchedule";
+import { ScheduleAppointment } from "../../Components/ScheduleAppointment";
+import { HomeCarousel } from "../../Components/AppCarousel/HomeCarousel";
 
 const { Title } = Typography;
 
@@ -11,7 +12,8 @@ const Home = () => {
     <Content>
       <Title>Orthopedic Spine</Title>
       <Title level={2}>Servicios</Title>
-      <AppCarousel servicesCards={servicesCardsItems} />
+      <HomeCarousel servicesCards={servicesCardsItems} slidesToShow={3} />
+      <ScheduleAppointment />
       <LocationSchedule />
     </Content>
   );
