@@ -6,27 +6,40 @@ import { ServicesCardsProps } from "../types";
 
 const { Meta } = Card;
 
-const ServicesCarousel: React.FC<ServicesCardsProps> = ({
+interface ServicesCarouselProps extends ServicesCardsProps {
+  beforeChange?: (oldIndex: number, newIndex: number) => void;
+}
+
+const ServicesCarousel: React.FC<ServicesCarouselProps> = ({
   servicesCards,
   slidesToShow,
+  beforeChange,
 }) => {
   return (
     <Content style={{ padding: "20px" }}>
-      <Carousel autoplay arrows slidesToShow={slidesToShow}>
+      <Carousel
+        autoplay
+        arrows
+        slidesToShow={slidesToShow}
+        beforeChange={beforeChange}
+      >
         {servicesCards.map((service) => (
-          <Row key={service.id} gutter={24}>
-            <Col span={24}>
-              <Card
-                hoverable
-                style={{ width: "100%" }}
-                cover={
-                  <img alt={service.alt} src={service.image} height={320} />
-                }
-              >
-                <Meta title={service.title} />
-              </Card>
-            </Col>
-          </Row>
+          <div key={service.id}>
+            <Card
+              hoverable
+              style={{ width: "100%" }}
+              cover={
+                <img
+                  alt={service.alt}
+                  src={service.image}
+                  height={320}
+                  style={{ objectFit: "cover" }}
+                />
+              }
+            >
+              <Meta title={service.title} />
+            </Card>
+          </div>
         ))}
       </Carousel>
     </Content>
