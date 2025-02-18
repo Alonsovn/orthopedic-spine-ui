@@ -10,7 +10,7 @@ const { Title } = Typography;
 const Services = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const handleBeforeChange = (oldIndex: number, newIndex: number) => {
+  const handleBeforeChange = (_: number, newIndex: number) => {
     setCurrentSlide(newIndex);
   };
 
