@@ -1,30 +1,34 @@
-import { Button, Card, Carousel, Col, Row } from "antd";
+import { Card, Carousel, Col, Row } from "antd";
 import { Content } from "antd/es/layout/layout";
 
 import "./style.css";
+import { ServicesCardsProps } from "../types";
 
 const { Meta } = Card;
 
-export interface ServicesCard {
-  id: number;
-  title: string;
-  description: string;
-  alt: string;
-  image: string;
-}
+// export interface ServicesCard {
+//   id: number;
+//   title: string;
+//   description?: string;
+//   alt: string;
+//   image: string;
+// }
 
-interface ServicesCardsProps {
-  servicesCards: ServicesCard[];
-}
+// interface ServicesCardsProps {
+//   servicesCards: ServicesCard[];
+//   slidesToShow: number;
+// }
 
-const AppCarousel: React.FC<ServicesCardsProps> = ({ servicesCards }) => {
+const HomeCarousel: React.FC<ServicesCardsProps> = ({
+  servicesCards,
+  slidesToShow,
+}) => {
   return (
     <Content style={{ padding: "20px" }}>
       <Carousel
         autoplay
-        dots={{ className: "custom-carousel-dots" }}
         arrows
-        slidesToShow={3}
+        slidesToShow={slidesToShow}
         centerMode={true}
         responsive={[
           {
@@ -54,7 +58,7 @@ const AppCarousel: React.FC<ServicesCardsProps> = ({ servicesCards }) => {
                 >
                   <Meta
                     title={service.title}
-                    description={service.description}
+                    description={service.description ? service.description : ""}
                   />
                 </Card>
               </Col>
@@ -62,16 +66,8 @@ const AppCarousel: React.FC<ServicesCardsProps> = ({ servicesCards }) => {
           </div>
         ))}
       </Carousel>
-
-      <Row justify={"center"} style={{ marginTop: "30px" }}>
-        <Col>
-          <Button type="primary" size="large">
-            Agendar una cita
-          </Button>
-        </Col>
-      </Row>
     </Content>
   );
 };
 
-export { AppCarousel };
+export { HomeCarousel };
