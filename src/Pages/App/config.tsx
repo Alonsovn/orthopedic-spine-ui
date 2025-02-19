@@ -1,5 +1,4 @@
 import AboutUs from "../AboutUs";
-import ForBusiness from "../ForBusiness";
 import Home from "../Home";
 import Services from "../Services";
 import {
@@ -24,7 +23,6 @@ export const routes: RouteItem[] = [
   { path: "services", element: <Services /> },
   { path: "testimonies", element: <Testimonies /> },
   { path: "contact", element: <Contact /> },
-  { path: "for-business", element: <ForBusiness /> },
   { path: "about-us", element: <AboutUs /> },
   { path: "blog", element: <Blog /> },
   { path: "gallery", element: <Gallery /> },
@@ -51,11 +49,6 @@ export const siderMenuitems: SiderMenuItem[] = [
     key: "/contact",
     icon: <ContactsOutlined />,
     label: "Contacto",
-  },
-  {
-    key: "/for-business",
-    icon: <AlignCenterOutlined />,
-    label: "Empresarial",
   },
   {
     key: "/about-us",
