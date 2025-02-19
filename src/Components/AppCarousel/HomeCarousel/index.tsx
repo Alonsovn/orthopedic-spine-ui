@@ -1,35 +1,31 @@
 import { Card, Carousel, Col, Row } from "antd";
 import { Content } from "antd/es/layout/layout";
 
-import "./style.css";
 import { ServicesCardsProps } from "../types";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSiderMenuSelectedKey } from "../../../Redux/Slices/uiSlice";
 
 const { Meta } = Card;
-
-// export interface ServicesCard {
-//   id: number;
-//   title: string;
-//   description?: string;
-//   alt: string;
-//   image: string;
-// }
-
-// interface ServicesCardsProps {
-//   servicesCards: ServicesCard[];
-//   slidesToShow: number;
-// }
 
 const HomeCarousel: React.FC<ServicesCardsProps> = ({
   servicesCards,
   slidesToShow,
 }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleOnclickCarouselCard = () => {
+    dispatch(setSiderMenuSelectedKey("/services"));
+    navigate("/services");
+  };
+
   return (
     <Content style={{ padding: "20px" }}>
       <Carousel
         autoplay
         arrows
         slidesToShow={slidesToShow}
-        centerMode={true}
         responsive={[
           {
             breakpoint: 1024,
@@ -55,6 +51,7 @@ const HomeCarousel: React.FC<ServicesCardsProps> = ({
                   cover={
                     <img alt={service.alt} src={service.image} height={180} />
                   }
+                  onClick={() => handleOnclickCarouselCard()}
                 >
                   <Meta
                     title={service.title}
