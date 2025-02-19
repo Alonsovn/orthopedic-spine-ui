@@ -17,6 +17,7 @@ import Testimonies from "../Testimonies";
 import { Contact } from "../Contact";
 import { Blog } from "../Blog";
 import { Gallery } from "../Gallery";
+import { SearchResults } from "../SearchResults";
 
 export const routes: RouteItem[] = [
   { path: "/", element: <Home /> },
@@ -26,6 +27,7 @@ export const routes: RouteItem[] = [
   { path: "about-us", element: <AboutUs /> },
   { path: "blog", element: <Blog /> },
   { path: "gallery", element: <Gallery /> },
+  { path: "search", element: <SearchResults /> },
   { path: "*", element: <NotFound /> },
 ];
 
