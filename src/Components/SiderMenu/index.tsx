@@ -8,7 +8,6 @@ import { setSiderMenuSelectedKey } from "../../Redux/Slices/uiSlice";
 const { Sider } = Layout;
 
 export interface SiderMenuItem {
-  id: number;
   key: string;
   icon: React.ReactNode;
   label: string;

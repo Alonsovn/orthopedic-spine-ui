@@ -1,7 +1,6 @@
 import { Card, Carousel } from "antd";
 import { Content } from "antd/es/layout/layout";
 
-import "./style.css";
 import { ServicesCardsProps } from "../types";
 
 const { Meta } = Card;
