@@ -1,24 +1,25 @@
-import { Card, Carousel, Col, Row } from "antd";
-import { Content } from "antd/es/layout/layout";
+import { Card, Carousel, Col, Layout, Row } from "antd";
 
 import { ServicesCardsProps } from "../types";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setSiderMenuSelectedKey } from "../../../Redux/Slices/uiSlice";
+import { useCallback } from "react";
 
 const { Meta } = Card;
+const { Content } = Layout;
 
-const HomeCarousel: React.FC<ServicesCardsProps> = ({
+export const HomePageCarousel: React.FC<ServicesCardsProps> = ({
   servicesCards,
   slidesToShow,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleOnclickCarouselCard = () => {
+  const handleOnClickCarouselCard = useCallback(() => {
     dispatch(setSiderMenuSelectedKey("/services"));
     navigate("/services");
-  };
+  }, [dispatch, navigate]);
 
   return (
     <Content style={{ padding: "20px" }}>
@@ -51,11 +52,11 @@ const HomeCarousel: React.FC<ServicesCardsProps> = ({
                   cover={
                     <img alt={service.alt} src={service.image} height={180} />
                   }
-                  onClick={() => handleOnclickCarouselCard()}
+                  onClick={() => handleOnClickCarouselCard()}
                 >
                   <Meta
                     title={service.title}
-                    description={service.description ? service.description : ""}
+                    description={service.description || ""}
                   />
                 </Card>
               </Col>
@@ -66,5 +67,3 @@ const HomeCarousel: React.FC<ServicesCardsProps> = ({
     </Content>
   );
 };
-
-export { HomeCarousel };
