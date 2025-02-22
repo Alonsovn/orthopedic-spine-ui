@@ -14,7 +14,7 @@ export const ClinicLocation: React.FC<ClinicLocationProps> = ({ position }) => {
       <Row gutter={[16, 16]}>
         <Card style={{ width: "100%" }}>
           <MapContainer
-            center={position || [0, 0]}
+            center={position}
             zoom={16}
             scrollWheelZoom={true}
             style={{
