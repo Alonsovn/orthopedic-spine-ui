@@ -14,7 +14,7 @@ export const ClinicLocation: React.FC<ClinicLocationProps> = ({ position }) => {
       <Row gutter={[16, 16]}>
         <Card style={{ width: "100%" }}>
           <MapContainer
-            center={position}
+            center={position || [0, 0]}
             zoom={16}
             scrollWheelZoom={true}
             style={{
@@ -30,7 +30,7 @@ export const ClinicLocation: React.FC<ClinicLocationProps> = ({ position }) => {
             <Marker position={position}>
               <Popup>
                 Orthopedic Spine -100 mts Norte de la Municipalidad de San
-                Rafael, Cartago
+                Rafael, Cartago 📍
               </Popup>
             </Marker>
           </MapContainer>

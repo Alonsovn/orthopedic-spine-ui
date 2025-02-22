@@ -7,7 +7,9 @@ const { Title } = Typography;
 const { Content } = Layout;
 
 export const Contact: React.FC = () => {
-  const position: [number, number] = [9.868032691676943, -83.90066555786967];
+  const position: [number, number] = [
+    9.868032691676943, -83.90066555786967,
+  ] as const;
 
   const onSubmitContactForm = (values: {
     name: string;
