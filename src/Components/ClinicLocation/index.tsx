@@ -1,5 +1,5 @@
 import { Card, Layout, Row, Typography } from "antd";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
