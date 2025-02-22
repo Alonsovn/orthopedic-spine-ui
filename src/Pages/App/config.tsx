@@ -18,6 +18,7 @@ import { Contact } from "../Contact";
 import { Blog } from "../Blog";
 import { Gallery } from "../Gallery";
 import { SearchResults } from "../SearchResults";
+import PrivacyAndCookiesPolicy from "../PrivacyAndCookiesPolicy";
 
 export const routes: RouteItem[] = [
   { path: "/", element: <Home /> },
@@ -28,6 +29,7 @@ export const routes: RouteItem[] = [
   { path: "blog", element: <Blog /> },
   { path: "gallery", element: <Gallery /> },
   { path: "search", element: <SearchResults /> },
+  { path: "privacy-and-cookies-policy", element: <PrivacyAndCookiesPolicy /> },
   { path: "*", element: <NotFound /> },
 ];
 
