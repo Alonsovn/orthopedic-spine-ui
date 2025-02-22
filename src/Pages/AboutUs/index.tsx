@@ -1,25 +1,8 @@
-import { Card, Col, Divider, Layout, Row, Typography } from "antd";
-import { Meta } from "react-router-dom";
+import { Col, Divider, Layout, Row, Typography } from "antd";
 import { ScheduleAppointment } from "../../Components/ScheduleAppointment";
 
 const { Title, Paragraph, Text } = Typography;
 const { Content } = Layout;
-
-const teamMembers = [
-  {
-    id: 1,
-    name: "Lic. Aaron Fallas",
-    role: "Ortopedista",
-    image: "/images/juan.jpg",
-  },
-  { id: 2, name: "Monica ...", role: "Asistente", image: "/images/maria.jpg" },
-  {
-    id: 3,
-    name: "Noily Naranjo Hidalgo ...",
-    role: "Asistente",
-    image: "/images/maria.jpg",
-  },
-];
 
 const AboutUs = () => {
   return (
