@@ -5,6 +5,7 @@ import App from "./Pages/App";
 import { Provider } from "react-redux";
 import { store } from "./Redux/store";
 import { BrowserRouter as Router } from "react-router-dom";
+import "leaflet/dist/leaflet.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
