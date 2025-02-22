@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Form, Input, Typography } from "antd";
+import { Button, Card, Checkbox, Form, Input, Space, Typography } from "antd";
 import { Content } from "antd/es/layout/layout";
 
 const { Title, Text, Link } = Typography;
@@ -12,6 +12,8 @@ interface ContactFormProps {
   }) => void;
 }
 
+const initialFormValues = { name: "", email: "", message: "", confirm: false };
+
 export const ContactForm: React.FC<ContactFormProps> = ({ onFinish }) => {
   const [form] = Form.useForm();
 
@@ -20,8 +22,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onFinish }) => {
   };
 
   return (
-    <Content id="contactForm">
-      <Card style={{ maxWidth: 500, width: "100%" }}>
+    <Content style={{ alignContent: "center" }}>
+      <Card style={{ width: "100%", alignContent: "center" }}>
         <Title level={4} style={{ marginBottom: 0, marginTop: 0 }}>
           Envíe un mensaje
         </Title>
@@ -33,11 +35,14 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onFinish }) => {
           form={form}
           layout="vertical"
           onFinish={onFinish}
-          style={{ marginTop: "20px" }}
+          autoComplete="off"
+          initialValues={initialFormValues}
+          style={{ marginTop: 20 }}
         >
           <Form.Item
-            label="Su nombre *"
+            label="Su nombre"
             name="name"
+            tooltip={{ title: "Este campo es requerido" }}
             rules={[
               {
                 required: true,
@@ -45,12 +50,13 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onFinish }) => {
               },
             ]}
           >
-            <Input placeholder="Su nombre" />
+            <Input placeholder="Su nombre" autoFocus />
           </Form.Item>
 
           <Form.Item
-            label="Su email *"
+            label="Su email"
             name="email"
+            tooltip={{ title: "Este campo es requerido" }}
             rules={[
               {
                 required: true,
@@ -66,8 +72,9 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onFinish }) => {
           </Form.Item>
 
           <Form.Item
-            label="Su mensaje *"
+            label="Su mensaje"
             name="message"
+            tooltip={{ title: "Este campo es requerido" }}
             rules={[
               {
                 required: true,
@@ -91,7 +98,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onFinish }) => {
             ]}
           >
             <Checkbox>
-              He podido y entiendo la{" "}
+              He podido leer y entiendo la{" "}
               <Link href="/privacy-and-cookies-policy" target="_blank">
                 Política de Privacidad y Cookies
               </Link>
@@ -99,16 +106,18 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onFinish }) => {
           </Form.Item>
 
           <Form.Item style={{ textAlign: "right" }}>
-            <Button type="default" onClick={handleReset}>
-              Limpiar
-            </Button>
-            <Button
-              type="primary"
-              htmlType="submit"
-              style={{ marginLeft: "10px" }}
-            >
-              ENVIAR
-            </Button>
+            <Space>
+              <Button type="default" onClick={handleReset}>
+                Limpiar
+              </Button>
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{ marginLeft: "10px" }}
+              >
+                ENVIAR
+              </Button>
+            </Space>
           </Form.Item>
         </Form>
       </Card>
