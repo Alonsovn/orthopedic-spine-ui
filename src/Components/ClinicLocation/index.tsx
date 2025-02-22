@@ -5,7 +5,7 @@ const { Title, Text } = Typography;
 const { Content } = Layout;
 
 interface ClinicLocationProps {
-  position: readonly [number, number];
+  position: [number, number];
 }
 
 export const ClinicLocation: React.FC<ClinicLocationProps> = ({ position }) => {
