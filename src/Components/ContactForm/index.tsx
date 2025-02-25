@@ -4,12 +4,7 @@ import { Content } from "antd/es/layout/layout";
 const { Title, Text, Link } = Typography;
 
 interface ContactFormProps {
-  onFinish: (values: {
-    name: string;
-    email: string;
-    message: string;
-    confirm: boolean;
-  }) => void;
+  onFinish: (values: { name: string; email: string; message: string; confirm: boolean }) => void;
 }
 
 const initialFormValues = { name: "", email: "", message: "", confirm: false };
@@ -27,9 +22,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onFinish }) => {
         <Title level={4} style={{ marginBottom: 0, marginTop: 0 }}>
           Envíe un mensaje
         </Title>
-        <Text type="secondary">
-          Los campos marcados con "*" son obligatorios.
-        </Text>
+        <Text type="secondary">Los campos marcados con "*" son obligatorios.</Text>
 
         <Form
           form={form}
@@ -90,10 +83,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onFinish }) => {
             valuePropName="checked"
             rules={[
               {
-                validator: (_, value) =>
-                  value
-                    ? Promise.resolve()
-                    : Promise.reject("Debe confirmar para continuar."),
+                validator: (_, value) => (value ? Promise.resolve() : Promise.reject("Debe confirmar para continuar.")),
               },
             ]}
           >
@@ -110,11 +100,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onFinish }) => {
               <Button type="default" onClick={handleReset}>
                 Limpiar
               </Button>
-              <Button
-                type="primary"
-                htmlType="submit"
-                style={{ marginLeft: "10px" }}
-              >
+              <Button type="primary" htmlType="submit" style={{ marginLeft: "10px" }}>
                 ENVIAR
               </Button>
             </Space>
