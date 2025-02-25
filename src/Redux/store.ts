@@ -3,16 +3,17 @@ import { backendServiceApi } from "./api";
 import userReducer from "./Slices/userSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import uiReducer from "./Slices/uiSlice";
+import testimoniesReducer from "./Slices/testimoniesSlice";
 
 export const store = configureStore({
   reducer: {
     [backendServiceApi.reducerPath]: backendServiceApi.reducer,
     user: userReducer,
     ui: uiReducer,
+    testimonies: testimoniesReducer,
   },
 
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(backendServiceApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(backendServiceApi.middleware),
   devTools: import.meta.env.MODE !== "production", // Enable Redux DevTools only in development
 });
 
