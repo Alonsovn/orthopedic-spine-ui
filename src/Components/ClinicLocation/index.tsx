@@ -1,11 +1,11 @@
 import { Card, Layout, Row, Typography } from "antd";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
 
 interface ClinicLocationProps {
-  position: readonly [number, number];
+  position: [number, number];
 }
 
 export const ClinicLocation: React.FC<ClinicLocationProps> = ({ position }) => {
@@ -30,7 +30,7 @@ export const ClinicLocation: React.FC<ClinicLocationProps> = ({ position }) => {
             <Marker position={position}>
               <Popup>
                 Orthopedic Spine -100 mts Norte de la Municipalidad de San
-                Rafael, Cartago
+                Rafael, Cartago 📍
               </Popup>
             </Marker>
           </MapContainer>
