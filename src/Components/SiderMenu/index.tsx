@@ -21,12 +21,8 @@ const SiderMenu: React.FC<SiderMenuItemsProps> = ({ items }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const collapsed = useSelector(
-    (state: RootState) => state.ui.siderMenuCollapsed
-  );
-  const siderMenuSelectedKey = useSelector(
-    (state: RootState) => state.ui.siderMenuSelectedKey
-  );
+  const collapsed = useSelector((state: RootState) => state.ui.siderMenuCollapsed);
+  const siderMenuSelectedKey = useSelector((state: RootState) => state.ui.siderMenuSelectedKey);
 
   const handleOnSelectMenu = (item: { key: string }) => {
     dispatch(setSiderMenuSelectedKey(item.key));

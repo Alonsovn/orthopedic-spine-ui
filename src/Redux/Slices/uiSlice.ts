@@ -24,6 +24,5 @@ const uiSlice = createSlice({
   },
 });
 
-export const { toggleCollapseSiderMenu, setSiderMenuSelectedKey } =
-  uiSlice.actions;
+export const { toggleCollapseSiderMenu, setSiderMenuSelectedKey } = uiSlice.actions;
 export default uiSlice.reducer;

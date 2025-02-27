@@ -30,32 +30,26 @@ const AboutUs = () => {
           <Col span={24}>
             <Title level={3}>Nuestra Historia </Title>
             <Text>
-              Desde nuestros inicios, en [Año de Fundación], nos hemos
-              comprometido a brindar un servicio de fisioterapia de alta
-              calidad. Nuestro equipo de profesionales altamente capacitados
-              trabaja con pasión y dedicación para ayudar a cada paciente a
-              recuperar su movilidad, reducir el dolor y mejorar su calidad de
-              vida. Creemos en un enfoque integral, combinando tecnología
-              avanzada con técnicas terapéuticas personalizadas.
+              Desde nuestros inicios, en [Año de Fundación], nos hemos comprometido a brindar un servicio de
+              fisioterapia de alta calidad. Nuestro equipo de profesionales altamente capacitados trabaja con pasión y
+              dedicación para ayudar a cada paciente a recuperar su movilidad, reducir el dolor y mejorar su calidad de
+              vida. Creemos en un enfoque integral, combinando tecnología avanzada con técnicas terapéuticas
+              personalizadas.
             </Text>
             <Title level={3}>Nuestra Filosofía</Title>
             <Text>
-              En nuestra clínica, cada paciente es único. Nos enfocamos en
-              diseñar tratamientos personalizados que se adapten a sus
-              necesidades específicas, promoviendo una recuperación efectiva y
-              duradera. Nuestro compromiso va más allá del tratamiento: buscamos
-              educar a nuestros pacientes sobre la prevención de lesiones y el
-              mantenimiento de una vida saludable a través de ejercicios,
-              ergonomía y hábitos posturales adecuados.
+              En nuestra clínica, cada paciente es único. Nos enfocamos en diseñar tratamientos personalizados que se
+              adapten a sus necesidades específicas, promoviendo una recuperación efectiva y duradera. Nuestro
+              compromiso va más allá del tratamiento: buscamos educar a nuestros pacientes sobre la prevención de
+              lesiones y el mantenimiento de una vida saludable a través de ejercicios, ergonomía y hábitos posturales
+              adecuados.
             </Text>
             <Title level={3}>Nuestro Compromiso </Title>
             <Text>
-              Sabemos que la salud y el bienestar no pueden esperar. Por ello,
-              ofrecemos un ambiente cálido y profesional, donde nuestros
-              pacientes se sientan cómodos y acompañados en cada etapa de su
-              recuperación. Nos enorgullece ser un referente en el cuidado
-              fisioterapéutico, ayudando a mejorar la vida de quienes confían en
-              nosotros día a día.
+              Sabemos que la salud y el bienestar no pueden esperar. Por ello, ofrecemos un ambiente cálido y
+              profesional, donde nuestros pacientes se sientan cómodos y acompañados en cada etapa de su recuperación.
+              Nos enorgullece ser un referente en el cuidado fisioterapéutico, ayudando a mejorar la vida de quienes
+              confían en nosotros día a día.
             </Text>
           </Col>
         </Row>
@@ -75,10 +69,7 @@ const AboutUs = () => {
           ))}
         </Row>
 
-        <Row
-          justify="center"
-          style={{ textAlign: "center", padding: "40px 20px" }}
-        >
+        <Row justify="center" style={{ textAlign: "center", padding: "40px 20px" }}>
           <Col>
             <Title level={2}> ¿Listo para conocernos?</Title>
             <ScheduleAppointment />

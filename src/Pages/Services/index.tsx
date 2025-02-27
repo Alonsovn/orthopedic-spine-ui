@@ -21,11 +21,7 @@ const Services = () => {
       <Title>Servicios</Title>
       <Row justify={"space-around"} align={"top"}>
         <Col span={6}>
-          <ServicesCarousel
-            servicesCards={fullServicesItems}
-            slidesToShow={1}
-            beforeChange={handleBeforeChange}
-          />
+          <ServicesCarousel servicesCards={fullServicesItems} slidesToShow={1} beforeChange={handleBeforeChange} />
         </Col>
         <Col span={18}>
           <List
@@ -34,10 +30,7 @@ const Services = () => {
             dataSource={[currentService]}
             renderItem={(item) => (
               <List.Item>
-                <List.Item.Meta
-                  title={item.title}
-                  description={item.description}
-                />
+                <List.Item.Meta title={item.title} description={item.description} />
               </List.Item>
             )}
           />
