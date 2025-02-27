@@ -4,12 +4,41 @@ on:
   push:
     branches:
       - main # Deploy whenever you push to main
+  pull_request:
+    branches:
+      - main # Runs checks on PRs before merging
 
 permissions:
   contents: write
 
 jobs:
+  check_code:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run Prettier Check
+        run: npm run format:check
+
+      - name: Run TypeScript Type Check
+        run: npm run type-check
+
   deploy:
+    needs: check_code
     runs-on: ubuntu-latest
 
     steps:
