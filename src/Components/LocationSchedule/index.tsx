@@ -30,9 +30,7 @@ const LocationSchedule = () => {
           <Paragraph>Lunes a viernes: 7am - 7pm</Paragraph>
           <Paragraph>Sábado 7am: - 12md</Paragraph>
           <Paragraph strong>Ubicación:</Paragraph>
-          <Paragraph>
-            Diagonal al Área de Salud de, Provincia de Cartago, San Rafael
-          </Paragraph>
+          <Paragraph>Diagonal al Área de Salud de, Provincia de Cartago, San Rafael</Paragraph>
         </Col>
       </Row>
       <LocationButtons latitude={latitude} longitude={longitude} />

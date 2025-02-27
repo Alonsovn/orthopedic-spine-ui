@@ -16,9 +16,7 @@ const AppHeader: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const collapsed = useSelector(
-    (state: RootState) => state.ui.siderMenuCollapsed
-  );
+  const collapsed = useSelector((state: RootState) => state.ui.siderMenuCollapsed);
 
   const handleSearch = (value: string) => {
     if (value.trim()) {

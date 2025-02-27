@@ -140,7 +140,7 @@ const Testimonies: React.FC = () => {
                 Cancelar
               </Button>
               <Button type="primary" htmlType="submit">
-                Agregar
+                Enviar
               </Button>
             </Space>
           </Form.Item>

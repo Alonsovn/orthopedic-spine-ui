@@ -29,9 +29,7 @@ const AppFooter: React.FC = () => {
       </Space>
       <Row justify={"center"} style={{ marginTop: "10px" }}>
         <Col>
-          <Text>
-            Copyright © {new Date().getFullYear()} - Develop by Alonso
-          </Text>
+          <Text>Copyright © {new Date().getFullYear()} - Develop by Alonso</Text>
         </Col>
       </Row>
     </Footer>

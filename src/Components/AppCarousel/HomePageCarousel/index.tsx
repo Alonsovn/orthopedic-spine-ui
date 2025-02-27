@@ -9,10 +9,7 @@ import { useCallback } from "react";
 const { Meta } = Card;
 const { Content } = Layout;
 
-export const HomePageCarousel: React.FC<ServicesCardsProps> = ({
-  servicesCards,
-  slidesToShow,
-}) => {
+export const HomePageCarousel: React.FC<ServicesCardsProps> = ({ servicesCards, slidesToShow }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -49,15 +46,10 @@ export const HomePageCarousel: React.FC<ServicesCardsProps> = ({
                 <Card
                   hoverable
                   style={{ width: "90%" }}
-                  cover={
-                    <img alt={service.alt} src={service.image} height={180} />
-                  }
+                  cover={<img alt={service.alt} src={service.image} height={180} />}
                   onClick={() => handleOnClickCarouselCard()}
                 >
-                  <Meta
-                    title={service.title}
-                    description={service.description || ""}
-                  />
+                  <Meta title={service.title} description={service.description || ""} />
                 </Card>
               </Col>
             </Row>

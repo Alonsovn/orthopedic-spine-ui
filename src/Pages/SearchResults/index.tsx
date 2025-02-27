@@ -14,9 +14,7 @@ const SearchResults = () => {
 
   // Filter services that match the query
   const filteredResults = fullServicesItems.filter(
-    (service) =>
-      service.title.toLowerCase().includes(query) ||
-      service.description?.toLowerCase().includes(query)
+    (service) => service.title.toLowerCase().includes(query) || service.description?.toLowerCase().includes(query)
   );
 
   return (
@@ -33,10 +31,7 @@ const SearchResults = () => {
               onClick={() => navigate("/services")}
               style={{ cursor: "pointer" }}
             >
-              <List.Item.Meta
-                title={item.title}
-                description={item.description}
-              />
+              <List.Item.Meta title={item.title} description={item.description} />
             </List.Item>
           )}
         />
