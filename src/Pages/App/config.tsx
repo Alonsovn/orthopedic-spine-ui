@@ -1,14 +1,7 @@
 import AboutUs from "../AboutUs";
 import Home from "../Home";
 import Services from "../Services";
-import {
-  HomeOutlined,
-  AlignCenterOutlined,
-  UserOutlined,
-  ContactsOutlined,
-  ReadOutlined,
-  PictureOutlined,
-} from "@ant-design/icons";
+import { HomeOutlined, AlignCenterOutlined, UserOutlined, ContactsOutlined } from "@ant-design/icons";
 
 import NotFound from "../NotFound";
 import { RouteItem } from "../../Components/AppRoutes";
