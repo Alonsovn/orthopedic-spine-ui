@@ -1,8 +1,8 @@
-import { Button, Col, Row } from "antd";
+import { Button, Col, Row } from 'antd';
 
 const ScheduleAppointment: React.FC = () => {
   return (
-    <Row justify={"center"} style={{ marginTop: "30px" }}>
+    <Row justify={'center'} style={{ marginTop: '30px' }}>
       <Col>
         <Button type="primary" size="large">
           Agendar una cita

@@ -1,5 +1,5 @@
-import { WhatsAppOutlined } from "@ant-design/icons";
-import { FloatButton } from "antd";
+import { WhatsAppOutlined } from '@ant-design/icons';
+import { FloatButton } from 'antd';
 
 const AppFloatButton = () => {
   return (

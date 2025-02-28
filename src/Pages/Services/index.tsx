@@ -1,9 +1,9 @@
-import { Col, List, Row, Typography } from "antd";
-import { Content } from "antd/es/layout/layout";
-import { fullServicesItems } from "./config";
-import { ServicesCarousel } from "../../Components/AppCarousel/ServicesCarousel";
-import { ScheduleAppointment } from "../../Components/ScheduleAppointment";
-import { useState } from "react";
+import { Col, List, Row, Typography } from 'antd';
+import { Content } from 'antd/es/layout/layout';
+import { fullServicesItems } from './config';
+import { ServicesCarousel } from '../../Components/AppCarousel/ServicesCarousel';
+import { ScheduleAppointment } from '../../Components/ScheduleAppointment';
+import { useState } from 'react';
 
 const { Title } = Typography;
 
@@ -19,7 +19,7 @@ const Services = () => {
   return (
     <Content>
       <Title>Servicios</Title>
-      <Row justify={"space-around"} align={"top"}>
+      <Row justify={'space-around'} align={'top'}>
         <Col span={6}>
           <ServicesCarousel servicesCards={fullServicesItems} slidesToShow={1} beforeChange={handleBeforeChange} />
         </Col>

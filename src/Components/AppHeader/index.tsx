@@ -1,9 +1,9 @@
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Button, Input, Layout, theme } from "antd";
-import { RootState } from "../../Redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleCollapseSiderMenu } from "../../Redux/Slices/uiSlice";
-import { useNavigate } from "react-router-dom";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { Button, Input, Layout, theme } from 'antd';
+import { RootState } from '../../Redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleCollapseSiderMenu } from '../../Redux/Slices/uiSlice';
+import { useNavigate } from 'react-router-dom';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -27,10 +27,10 @@ const AppHeader: React.FC = () => {
   return (
     <Header
       style={{
-        padding: "0 20px",
+        padding: '0 20px',
         background: colorBgContainer,
-        display: "flex",
-        alignItems: "center",
+        display: 'flex',
+        alignItems: 'center',
       }}
     >
       <Button
@@ -38,20 +38,20 @@ const AppHeader: React.FC = () => {
         icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         onClick={() => dispatch(toggleCollapseSiderMenu())}
         style={{
-          fontSize: "16px",
+          fontSize: '16px',
           width: 64,
           height: 64,
         }}
       />
 
-      <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
         <Search
           placeholder="Search..."
           allowClear
           enterButton
           size="large"
           onSearch={handleSearch}
-          style={{ width: "100%", maxWidth: 300 }}
+          style={{ width: '100%', maxWidth: 300 }}
         />
       </div>
     </Header>

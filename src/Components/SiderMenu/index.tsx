@@ -1,9 +1,9 @@
-import { Col, Divider, Layout, Menu, Row } from "antd";
-import { useNavigate } from "react-router-dom";
-import logo from "../../Assets/logo.png";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../Redux/store";
-import { setSiderMenuSelectedKey } from "../../Redux/Slices/uiSlice";
+import { Col, Divider, Layout, Menu, Row } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import logo from '../../Assets/logo.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../Redux/store';
+import { setSiderMenuSelectedKey } from '../../Redux/Slices/uiSlice';
 
 const { Sider } = Layout;
 
@@ -46,12 +46,12 @@ const SiderMenu: React.FC<SiderMenuItemsProps> = ({ items }) => {
             }}
           />
         </Col>
-        <Divider style={{ borderColor: "white" }}></Divider>
+        <Divider style={{ borderColor: 'white' }}></Divider>
       </Row>
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={['1']}
         selectedKeys={[siderMenuSelectedKey]}
         items={items}
         onSelect={handleOnSelectMenu}

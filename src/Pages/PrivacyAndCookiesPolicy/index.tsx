@@ -1,8 +1,8 @@
-import { Typography } from "antd";
+import { Typography } from 'antd';
 
 const { Title, Paragraph, Text } = Typography;
 const styleTitle: React.CSSProperties = {
-  textAlign: "center",
+  textAlign: 'center',
 };
 
 const PrivacyAndCookiesPolicy = () => {
