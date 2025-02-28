@@ -1,7 +1,7 @@
-import { Card, Carousel } from "antd";
-import { Content } from "antd/es/layout/layout";
+import { Card, Carousel } from 'antd';
+import { Content } from 'antd/es/layout/layout';
 
-import { ServicesCardsProps } from "../types";
+import { ServicesCardsProps } from '../types';
 
 const { Meta } = Card;
 
@@ -11,14 +11,14 @@ interface ServicesCarouselProps extends ServicesCardsProps {
 
 const ServicesCarousel: React.FC<ServicesCarouselProps> = ({ servicesCards, slidesToShow, beforeChange }) => {
   return (
-    <Content style={{ padding: "20px" }}>
+    <Content style={{ padding: '20px' }}>
       <Carousel autoplay arrows slidesToShow={slidesToShow} beforeChange={beforeChange}>
         {servicesCards.map((service) => (
           <div key={service.id}>
             <Card
               hoverable
-              style={{ width: "100%" }}
-              cover={<img alt={service.alt} src={service.image} height={320} style={{ objectFit: "cover" }} />}
+              style={{ width: '100%' }}
+              cover={<img alt={service.alt} src={service.image} height={320} style={{ objectFit: 'cover' }} />}
             >
               <Meta title={service.title} />
             </Card>

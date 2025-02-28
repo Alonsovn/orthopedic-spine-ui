@@ -1,8 +1,8 @@
-import { Layout, Typography } from "antd";
-import { servicesCardsItems } from "./config";
-import { LocationSchedule } from "../../Components/LocationSchedule";
-import { ScheduleAppointment } from "../../Components/ScheduleAppointment";
-import { HomePageCarousel } from "../../Components/AppCarousel/HomePageCarousel";
+import { Layout, Typography } from 'antd';
+import { servicesCardsItems } from './config';
+import { LocationSchedule } from '../../Components/LocationSchedule';
+import { ScheduleAppointment } from '../../Components/ScheduleAppointment';
+import { HomePageCarousel } from '../../Components/AppCarousel/HomePageCarousel';
 
 const { Title } = Typography;
 const { Content } = Layout;

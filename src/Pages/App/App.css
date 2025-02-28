@@ -11,12 +11,12 @@
 
 .header-container.light {
   /* background: "#F9FAFB"; */
-  background: "#ddd";
-  color: "#333";
+  background: '#ddd';
+  color: '#333';
 }
 
 .header-container.dark {
   /* background: "#181818"; */
-  background: "#333";
-  color: "#fff";
+  background: '#333';
+  color: '#fff';
 }

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 interface Testimony {
   id: number;
@@ -21,7 +21,7 @@ const initialState: TestimonyState = {
 };
 
 export const testimoniesSlice = createSlice({
-  name: "testimonies",
+  name: 'testimonies',
   initialState,
   reducers: {
     getTestimonies: (state) => {

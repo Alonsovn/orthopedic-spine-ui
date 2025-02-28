@@ -1,51 +1,51 @@
-import AboutUs from "../AboutUs";
-import Home from "../Home";
-import Services from "../Services";
-import { HomeOutlined, AlignCenterOutlined, UserOutlined, ContactsOutlined } from "@ant-design/icons";
+import AboutUs from '../AboutUs';
+import Home from '../Home';
+import Services from '../Services';
+import { HomeOutlined, AlignCenterOutlined, UserOutlined, ContactsOutlined } from '@ant-design/icons';
 
-import NotFound from "../NotFound";
-import { RouteItem } from "../../Components/AppRoutes";
-import { SiderMenuItem } from "../../Components/SiderMenu";
-import Testimonies from "../Testimonies";
-import { Contact } from "../Contact";
-import { SearchResults } from "../SearchResults";
-import PrivacyAndCookiesPolicy from "../PrivacyAndCookiesPolicy";
+import NotFound from '../NotFound';
+import { RouteItem } from '../../Components/AppRoutes';
+import { SiderMenuItem } from '../../Components/SiderMenu';
+import Testimonies from '../Testimonies';
+import { Contact } from '../Contact';
+import { SearchResults } from '../SearchResults';
+import PrivacyAndCookiesPolicy from '../PrivacyAndCookiesPolicy';
 
 export const routes: RouteItem[] = [
-  { path: "/", element: <Home /> },
-  { path: "services", element: <Services /> },
-  { path: "testimonies", element: <Testimonies /> },
-  { path: "contact", element: <Contact /> },
-  { path: "about-us", element: <AboutUs /> },
-  { path: "search", element: <SearchResults /> },
-  { path: "privacy-and-cookies-policy", element: <PrivacyAndCookiesPolicy /> },
-  { path: "*", element: <NotFound /> },
+  { path: '/', element: <Home /> },
+  { path: 'services', element: <Services /> },
+  { path: 'testimonies', element: <Testimonies /> },
+  { path: 'contact', element: <Contact /> },
+  { path: 'about-us', element: <AboutUs /> },
+  { path: 'search', element: <SearchResults /> },
+  { path: 'privacy-and-cookies-policy', element: <PrivacyAndCookiesPolicy /> },
+  { path: '*', element: <NotFound /> },
 ];
 
 export const siderMenuitems: SiderMenuItem[] = [
   {
-    key: "/",
+    key: '/',
     icon: <HomeOutlined />,
-    label: "Inicio",
+    label: 'Inicio',
   },
   {
-    key: "/services",
+    key: '/services',
     icon: <AlignCenterOutlined />,
-    label: "Servicios",
+    label: 'Servicios',
   },
   {
-    key: "/testimonies",
+    key: '/testimonies',
     icon: <UserOutlined />,
-    label: "Testimonios",
+    label: 'Testimonios',
   },
   {
-    key: "/contact",
+    key: '/contact',
     icon: <ContactsOutlined />,
-    label: "Contacto",
+    label: 'Contacto',
   },
   {
-    key: "/about-us",
+    key: '/about-us',
     icon: <AlignCenterOutlined />,
-    label: "Acerca de",
+    label: 'Acerca de',
   },
 ];

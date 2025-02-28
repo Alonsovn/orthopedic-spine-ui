@@ -1,10 +1,10 @@
-import { Card, Carousel, Col, Layout, Row } from "antd";
+import { Card, Carousel, Col, Layout, Row } from 'antd';
 
-import { ServicesCardsProps } from "../types";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setSiderMenuSelectedKey } from "../../../Redux/Slices/uiSlice";
-import { useCallback } from "react";
+import { ServicesCardsProps } from '../types';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setSiderMenuSelectedKey } from '../../../Redux/Slices/uiSlice';
+import { useCallback } from 'react';
 
 const { Meta } = Card;
 const { Content } = Layout;
@@ -14,12 +14,12 @@ export const HomePageCarousel: React.FC<ServicesCardsProps> = ({ servicesCards, 
   const dispatch = useDispatch();
 
   const handleOnClickCarouselCard = useCallback(() => {
-    dispatch(setSiderMenuSelectedKey("/services"));
-    navigate("/services");
+    dispatch(setSiderMenuSelectedKey('/services'));
+    navigate('/services');
   }, [dispatch, navigate]);
 
   return (
-    <Content style={{ padding: "20px" }}>
+    <Content style={{ padding: '20px' }}>
       <Carousel
         autoplay
         arrows
@@ -45,11 +45,11 @@ export const HomePageCarousel: React.FC<ServicesCardsProps> = ({ servicesCards, 
               <Col span={24}>
                 <Card
                   hoverable
-                  style={{ width: "90%" }}
+                  style={{ width: '90%' }}
                   cover={<img alt={service.alt} src={service.image} height={180} />}
                   onClick={() => handleOnClickCarouselCard()}
                 >
-                  <Meta title={service.title} description={service.description || ""} />
+                  <Meta title={service.title} description={service.description || ''} />
                 </Card>
               </Col>
             </Row>

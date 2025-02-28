@@ -1,8 +1,8 @@
-import { Card, Col, Divider, Layout, Row, Typography } from "antd";
-import { ScheduleAppointment } from "../../Components/ScheduleAppointment";
-import aaronImage from "../../Assets/images/aaron.png";
-import colegioImage from "../../Assets/images//colegio.png";
-import santaPaulaImage from "../../Assets/images//santaPaula.png";
+import { Card, Col, Divider, Layout, Row, Typography } from 'antd';
+import { ScheduleAppointment } from '../../Components/ScheduleAppointment';
+import aaronImage from '../../Assets/images/aaron.png';
+import colegioImage from '../../Assets/images//colegio.png';
+import santaPaulaImage from '../../Assets/images//santaPaula.png';
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
@@ -10,13 +10,13 @@ const { Content } = Layout;
 const infoItems = [
   {
     id: 1,
-    name: "Lic. Aaron Fallas",
+    name: 'Lic. Aaron Fallas',
     image: aaronImage,
   },
-  { id: 2, name: "Colegio de terapeutas", image: colegioImage },
+  { id: 2, name: 'Colegio de terapeutas', image: colegioImage },
   {
     id: 3,
-    name: "Universidad Santa Paula ",
+    name: 'Universidad Santa Paula ',
     image: santaPaulaImage,
   },
 ];
@@ -25,7 +25,7 @@ const AboutUs = () => {
   return (
     <Content>
       <Title level={1}>Sobre Nosotros</Title>
-      <Content style={{ textAlign: "left" }}>
+      <Content style={{ textAlign: 'left' }}>
         <Row>
           <Col span={24}>
             <Title level={3}>Nuestra Historia </Title>
@@ -69,7 +69,7 @@ const AboutUs = () => {
           ))}
         </Row>
 
-        <Row justify="center" style={{ textAlign: "center", padding: "40px 20px" }}>
+        <Row justify="center" style={{ textAlign: 'center', padding: '40px 20px' }}>
           <Col>
             <Title level={2}> ¿Listo para conocernos?</Title>
             <ScheduleAppointment />

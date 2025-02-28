@@ -1,9 +1,9 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { backendServiceApi } from "./api";
-import userReducer from "./Slices/userSlice";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import uiReducer from "./Slices/uiSlice";
-import testimoniesReducer from "./Slices/testimoniesSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import { backendServiceApi } from './api';
+import userReducer from './Slices/userSlice';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import uiReducer from './Slices/uiSlice';
+import testimoniesReducer from './Slices/testimoniesSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,7 +14,7 @@ export const store = configureStore({
   },
 
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(backendServiceApi.middleware),
-  devTools: import.meta.env.MODE !== "production", // Enable Redux DevTools only in development
+  devTools: import.meta.env.MODE !== 'production', // Enable Redux DevTools only in development
 });
 
 setupListeners(store.dispatch);

@@ -1,8 +1,8 @@
-import { Col, Image, Row, Typography } from "antd";
-import { Content } from "antd/es/layout/layout";
-import build from "../../Assets/images/build.png";
+import { Col, Image, Row, Typography } from 'antd';
+import { Content } from 'antd/es/layout/layout';
+import build from '../../Assets/images/build.png';
 
-import { LocationButtons } from "../LocationButtons";
+import { LocationButtons } from '../LocationButtons';
 
 const { Paragraph, Text } = Typography;
 
@@ -12,9 +12,9 @@ const LocationSchedule = () => {
 
   return (
     <Content>
-      <Row justify={"center"} style={{ marginTop: "10px" }}>
+      <Row justify={'center'} style={{ marginTop: '10px' }}>
         <Col>
-          <Text strong style={{ fontSize: "16px" }}>
+          <Text strong style={{ fontSize: '16px' }}>
             Ubicación y Horario:
           </Text>
         </Col>

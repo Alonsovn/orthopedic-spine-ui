@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 interface UiState {
   siderMenuCollapsed: boolean;
@@ -7,11 +7,11 @@ interface UiState {
 
 const initialState: UiState = {
   siderMenuCollapsed: false,
-  siderMenuSelectedKey: "/",
+  siderMenuSelectedKey: '/',
 };
 
 const uiSlice = createSlice({
-  name: "ui",
+  name: 'ui',
   initialState,
   reducers: {
     toggleCollapseSiderMenu: (state) => {
