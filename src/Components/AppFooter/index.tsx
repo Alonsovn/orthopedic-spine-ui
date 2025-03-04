@@ -1,5 +1,5 @@
 import { Col, Layout, Row, Space, Typography } from 'antd';
-import { iconsFooter } from './config';
+import { iconsFooter } from '../../Resources/Config/footer';
 
 const { Footer } = Layout;
 const { Text } = Typography;

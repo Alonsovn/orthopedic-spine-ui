@@ -9,14 +9,19 @@ import { useCallback } from 'react';
 const { Meta } = Card;
 const { Content } = Layout;
 
-export const HomePageCarousel: React.FC<ServicesCardsProps> = ({ servicesCards, slidesToShow }) => {
+export const HomePageCarousel: React.FC<ServicesCardsProps> = ({ services, slidesToShow }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleOnClickCarouselCard = useCallback(() => {
-    dispatch(setSiderMenuSelectedKey('/services'));
-    navigate('/services');
-  }, [dispatch, navigate]);
+  const principalServices = services.filter((service) => service.isPrimary);
+
+  const handleOnClickCarouselCard = useCallback(
+    (serviceId: string) => {
+      dispatch(setSiderMenuSelectedKey('/services'));
+      navigate(`/services/${serviceId}`);
+    },
+    [dispatch, navigate],
+  );
 
   return (
     <Content style={{ padding: '20px' }}>
@@ -39,7 +44,7 @@ export const HomePageCarousel: React.FC<ServicesCardsProps> = ({ servicesCards, 
           },
         ]}
       >
-        {servicesCards.map((service) => (
+        {principalServices.map((service) => (
           <div key={service.id}>
             <Row justify="center" gutter={24}>
               <Col span={24}>
@@ -47,9 +52,9 @@ export const HomePageCarousel: React.FC<ServicesCardsProps> = ({ servicesCards, 
                   hoverable
                   style={{ width: '90%' }}
                   cover={<img alt={service.alt} src={service.image} height={180} />}
-                  onClick={() => handleOnClickCarouselCard()}
+                  onClick={() => handleOnClickCarouselCard(service.id.toString())}
                 >
-                  <Meta title={service.title} description={service.description || ''} />
+                  <Meta title={service.title} description={service.shortDescription || ''} />
                 </Card>
               </Col>
             </Row>
