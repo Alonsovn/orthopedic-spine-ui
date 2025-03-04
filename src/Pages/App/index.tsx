@@ -1,13 +1,13 @@
 import 'antd/dist/reset.css'; // Import Ant Design CSS
 
-import './App.css';
 import { AppRoutes } from '../../Components/AppRoutes';
-import { routes, siderMenuitems } from './config';
 import { SiderMenu } from '../../Components/SiderMenu';
 import { Layout } from 'antd';
 import { AppHeader } from '../../Components/AppHeader';
 import { AppFooter } from '../../Components/AppFooter';
 import { AppFloatButton } from '../../Components/AppFloatButton';
+import { siderMenuitems } from '../../Resources/Config/siderMenu';
+import { routes } from '../../Resources/Config/routes';
 
 const { Content } = Layout;
 const contentStyle: React.CSSProperties = {
