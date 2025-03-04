@@ -79,7 +79,7 @@ export const testimoniesMockData: Testimony[] = [
     opinion: 'Me sentí muy cómodo, sin duda volveré.',
   },
   {
-    id: 14,
+    id: 12,
     firstName: 'Juan',
     lastName: 'García',
     rating: 4,
