@@ -1,6 +1,6 @@
 import { Alert, Button, Col, Layout, Row, Typography } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fullServicesItems } from '../Services/config';
+import { allClinicServices } from '../../Resources/MockData/services';
 
 const { Title, Paragraph } = Typography;
 const { Content } = Layout;
@@ -11,7 +11,7 @@ const ServiceDetail = () => {
   const { id } = useParams<{ id: string }>();
 
   //find the service by id
-  const service = fullServicesItems.find((service) => service.id.toString() === id);
+  const service = allClinicServices.find((service) => service.id.toString() === id);
 
   const onClickBackToSevices = () => {
     navigate('/services');
@@ -34,7 +34,7 @@ const ServiceDetail = () => {
       <Row justify={'center'}>
         <Col xs={24} sm={24} md={12} lg={12}>
           <Button type="primary" onClick={onClickBackToSevices}>
-            Volver a servicios
+            Ir a servicios
           </Button>
         </Col>
       </Row>
