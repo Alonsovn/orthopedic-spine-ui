@@ -11,7 +11,7 @@ interface ClinicLocationProps {
 export const ClinicLocation: React.FC<ClinicLocationProps> = ({ position }) => {
   return (
     <Content>
-      <Row gutter={[16, 16]}>
+      <Row gutter={[16, 16]} justify={'center'}>
         <Card style={{ width: '100%' }}>
           <MapContainer
             center={position || [0, 0]}
@@ -34,7 +34,7 @@ export const ClinicLocation: React.FC<ClinicLocationProps> = ({ position }) => {
         </Card>
       </Row>
 
-      <Row>
+      <Row justify={'center'}>
         <Card title="Contáctenos" style={{ width: '100%', marginTop: 10, borderRadius: 10 }}>
           <Title level={4}>Orthopedic Spine </Title>
           <Text>100 mts Norte de la Municipalidad de San Rafael, Cartago</Text>
@@ -45,7 +45,9 @@ export const ClinicLocation: React.FC<ClinicLocationProps> = ({ position }) => {
           </div>
           <div style={{ marginTop: '20px' }}>
             <Title level={5}>Email</Title>
-            <a href="mailto:info.orthopedic_spine@clinics.com">info.orthopedic_spine@clinics.com</a>
+            <a href="mailto:info.orthopedic_spine@clinics.com" style={{ wordBreak: 'break-word' }}>
+              info.orthopedic_spine@clinics.com
+            </a>
           </div>
         </Card>
       </Row>
