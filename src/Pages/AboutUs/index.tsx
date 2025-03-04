@@ -16,7 +16,7 @@ const infoItems = [
   { id: 2, name: 'Colegio de terapeutas', image: colegioImage },
   {
     id: 3,
-    name: 'Universidad Santa Paula ',
+    name: 'Universidad Santa Paula',
     image: santaPaulaImage,
   },
 ];

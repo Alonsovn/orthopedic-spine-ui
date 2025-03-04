@@ -4,6 +4,8 @@ import { RootState } from '../../Redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleCollapseSiderMenu } from '../../Redux/Slices/uiSlice';
 import { useNavigate } from 'react-router-dom';
+import { useCallback, useState } from 'react';
+import { debounce } from 'lodash';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -18,9 +20,20 @@ const AppHeader: React.FC = () => {
 
   const collapsed = useSelector((state: RootState) => state.ui.siderMenuCollapsed);
 
-  const handleSearch = (value: string) => {
-    if (value.trim()) {
-      navigate(`/search?q=${encodeURIComponent(value)}`);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
+  // Debounced function to reduce unnecessary state updates
+  const debouncedSetSearchQuery = useCallback((search: string) => {
+    debounce(() => setSearchQuery(search), 300)();
+  }, []);
+
+  const onSearchChange = (search: React.ChangeEvent<HTMLInputElement>) => {
+    debouncedSetSearchQuery(search.target.value);
+  };
+
+  const onSearchSubmit = (search: string) => {
+    if (search.trim()) {
+      navigate(`/search?q=${encodeURIComponent(search)}`);
     }
   };
 
@@ -46,11 +59,13 @@ const AppHeader: React.FC = () => {
 
       <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
         <Search
-          placeholder="Search..."
+          placeholder="Buscar..."
           allowClear
           enterButton
           size="large"
-          onSearch={handleSearch}
+          defaultValue={searchQuery}
+          onSearch={onSearchSubmit}
+          onChange={onSearchChange}
           style={{ width: '100%', maxWidth: 300 }}
         />
       </div>

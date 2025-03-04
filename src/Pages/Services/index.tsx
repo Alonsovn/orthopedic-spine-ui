@@ -20,7 +20,7 @@ const Services = () => {
     <Content>
       <Title>Servicios</Title>
       <Row justify={'space-around'} align={'top'}>
-        <Col span={6}>
+        <Col xs={24} sm={24} md={8} lg={6}>
           <ServicesCarousel servicesCards={fullServicesItems} slidesToShow={1} beforeChange={handleBeforeChange} />
         </Col>
         <Col span={18}>
