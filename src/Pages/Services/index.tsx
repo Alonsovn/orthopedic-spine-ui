@@ -4,17 +4,22 @@ import { ServicesCarousel } from '../../Components/AppCarousel/ServicesCarousel'
 import { ScheduleAppointment } from '../../Components/ScheduleAppointment';
 import { useState } from 'react';
 import { allClinicServices } from '../../Resources/MockData/services';
+import { useNavigate } from 'react-router-dom';
 
 const { Title } = Typography;
 
 const Services = () => {
+  const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(1);
+  const currentService = allClinicServices[currentSlide];
 
   const handleBeforeChange = (_: number, newIndex: number) => {
     setCurrentSlide(newIndex);
   };
 
-  const currentService = allClinicServices[currentSlide];
+  const onClickService = (id: number) => {
+    navigate(`/services/${id}`);
+  };
 
   return (
     <Content>
@@ -29,7 +34,7 @@ const Services = () => {
             bordered
             dataSource={[currentService]}
             renderItem={(item) => (
-              <List.Item>
+              <List.Item style={{ cursor: 'pointer' }} onClick={() => onClickService(item.id)}>
                 <List.Item.Meta title={item.title} description={item.description} />
               </List.Item>
             )}
