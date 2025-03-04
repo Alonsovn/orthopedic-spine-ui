@@ -10,10 +10,12 @@ import Testimonies from '../Testimonies';
 import { Contact } from '../Contact';
 import { SearchResults } from '../SearchResults';
 import PrivacyAndCookiesPolicy from '../PrivacyAndCookiesPolicy';
+import { ServiceDetail } from '../ServiceDetail';
 
 export const routes: RouteItem[] = [
   { path: '/', element: <Home /> },
   { path: 'services', element: <Services /> },
+  { path: 'services/:id', element: <ServiceDetail /> },
   { path: 'testimonies', element: <Testimonies /> },
   { path: 'contact', element: <Contact /> },
   { path: 'about-us', element: <AboutUs /> },
