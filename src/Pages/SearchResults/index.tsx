@@ -1,8 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Alert, List, Spin, Typography } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
-import { debounce } from 'lodash';
 import { allClinicServices } from '../../Resources/MockData/services';
+import { useDispatch } from 'react-redux';
+import { setSearchQuery } from '../../Redux/Slices/uiSlice';
 
 const { Title, Text } = Typography;
 const DESCRIPTION_LENGTH = 250;
@@ -10,29 +11,13 @@ const DESCRIPTION_LENGTH = 250;
 const SearchResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Extract search query
   const queryParams = new URLSearchParams(location.search);
   const rawSearchQuery = queryParams.get('q')?.toLowerCase() || '';
 
-  const [searchQuery, setSearchQuery] = useState<string>(rawSearchQuery);
   const [loading, setLoading] = useState(false);
-
-  // Debounced function to update searchQuery state
-  const debouncedSetSearchQuery = useMemo(
-    () =>
-      debounce((search: string) => {
-        setSearchQuery(search);
-      }, 300),
-    [],
-  );
-
-  useEffect(() => {
-    debouncedSetSearchQuery(rawSearchQuery);
-    return () => {
-      debouncedSetSearchQuery.cancel(); // Clean up debounce on unmount
-    };
-  }, [rawSearchQuery, debouncedSetSearchQuery]);
 
   useEffect(() => {
     setLoading(true);
@@ -40,7 +25,7 @@ const SearchResults = () => {
       setLoading(false);
     }, 300);
     return () => clearTimeout(timer);
-  }, [searchQuery]);
+  }, [rawSearchQuery]);
 
   // Memoized filtering of services
   const filteredServices = useMemo(() => {
@@ -48,9 +33,9 @@ const SearchResults = () => {
       const lowerTitle = service.title?.toLowerCase() || '';
       const lowerDescription = service.description?.toLowerCase() || '';
 
-      return lowerTitle.includes(searchQuery) || lowerDescription.includes(searchQuery);
+      return lowerTitle.includes(rawSearchQuery) || lowerDescription.includes(rawSearchQuery);
     });
-  }, [searchQuery]);
+  }, [rawSearchQuery]);
 
   const highlightText = (text: string, search: string) => {
     if (!search.trim()) return text;
@@ -81,14 +66,14 @@ const SearchResults = () => {
     );
   };
 
-  const onSelectFiteredService = (id: number) => {
+  const onSelectFilteredService = (id: number) => {
     navigate(`/services/${id}`);
-    //TODO clean up search query on navbar
+    dispatch(setSearchQuery(''));
   };
 
   return (
     <div style={{ padding: 20 }}>
-      <Title level={2}>Resultados de la búsqueda: "{searchQuery}"</Title>
+      <Title level={2}>Resultados de la búsqueda: "{rawSearchQuery}"</Title>
 
       {loading ? (
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
@@ -100,10 +85,10 @@ const SearchResults = () => {
           bordered
           dataSource={filteredServices}
           renderItem={(item) => (
-            <List.Item onClick={() => onSelectFiteredService(item.id)} style={{ cursor: 'pointer' }}>
+            <List.Item onClick={() => onSelectFilteredService(item.id)} style={{ cursor: 'pointer' }}>
               <List.Item.Meta
-                title={highlightText(item.title || '', searchQuery)}
-                description={highlightText(item.description || '', searchQuery)}
+                title={highlightText(item.title || '', rawSearchQuery)}
+                description={highlightText(item.description || '', rawSearchQuery)}
               />
             </List.Item>
           )}

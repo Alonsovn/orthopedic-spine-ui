@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../../Assets/logo.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../Redux/store';
-import { setSiderMenuSelectedKey } from '../../Redux/Slices/uiSlice';
+import { setSearchQuery, setSiderMenuSelectedKey } from '../../Redux/Slices/uiSlice';
 
 const { Sider } = Layout;
 
@@ -25,6 +25,7 @@ const SiderMenu: React.FC<SiderMenuItemsProps> = ({ items }) => {
   const siderMenuSelectedKey = useSelector((state: RootState) => state.ui.siderMenuSelectedKey);
 
   const handleOnSelectMenu = (item: { key: string }) => {
+    dispatch(setSearchQuery(''));
     dispatch(setSiderMenuSelectedKey(item.key));
     navigate(item.key);
   };

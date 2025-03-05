@@ -2,10 +2,9 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Button, Input, Layout, theme } from 'antd';
 import { RootState } from '../../Redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleCollapseSiderMenu } from '../../Redux/Slices/uiSlice';
+import { setSearchQuery, toggleCollapseSiderMenu } from '../../Redux/Slices/uiSlice';
 import { useNavigate } from 'react-router-dom';
-import { useCallback, useState } from 'react';
-import { debounce } from 'lodash';
+import { useEffect, useState } from 'react';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -19,20 +18,21 @@ const AppHeader: React.FC = () => {
   } = theme.useToken();
 
   const collapsed = useSelector((state: RootState) => state.ui.siderMenuCollapsed);
+  const searchQuery = useSelector((state: RootState) => state.ui.searchQuery);
 
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [inputSearchQuery, setInputSearchQuery] = useState<string>(searchQuery);
 
-  // Debounced function to reduce unnecessary state updates
-  const debouncedSetSearchQuery = useCallback((search: string) => {
-    debounce(() => setSearchQuery(search), 300)();
-  }, []);
+  useEffect(() => {
+    setInputSearchQuery(searchQuery);
+  }, [searchQuery]);
 
-  const onSearchChange = (search: React.ChangeEvent<HTMLInputElement>) => {
-    debouncedSetSearchQuery(search.target.value);
+  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputSearchQuery(event.target.value);
   };
 
   const onSearchSubmit = (search: string) => {
     if (search.trim()) {
+      dispatch(setSearchQuery(search));
       navigate(`/search?q=${encodeURIComponent(search)}`);
     }
   };
@@ -63,7 +63,7 @@ const AppHeader: React.FC = () => {
           allowClear
           enterButton
           size="large"
-          defaultValue={searchQuery}
+          value={inputSearchQuery}
           onSearch={onSearchSubmit}
           onChange={onSearchChange}
           style={{ width: '100%', maxWidth: 300 }}

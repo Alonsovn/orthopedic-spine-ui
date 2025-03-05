@@ -7,8 +7,6 @@ const { Title } = Typography;
 const { Content } = Layout;
 
 export const Contact: React.FC = () => {
-  const position: [number, number] = [9.868032691676943, -83.90066555786967] as const;
-
   const onSubmitContactForm = (values: { name: string; email: string; message: string; confirm: boolean }) => {
     console.log('Form values: ', values);
   };
@@ -36,7 +34,7 @@ export const Contact: React.FC = () => {
           <Title level={2} style={{ textAlign: 'center' }}>
             ¿Cómo llegar?
           </Title>
-          <ClinicLocation position={position} />
+          <ClinicLocation />
         </Content>
       </Col>
       <ScheduleAppointment />

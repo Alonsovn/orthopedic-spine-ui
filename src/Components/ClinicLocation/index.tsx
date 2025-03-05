@@ -1,14 +1,14 @@
 import { Card, Layout, Row, Typography } from 'antd';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { clinicInformation } from '../../Resources/Config/clinicInformation';
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
 
-interface ClinicLocationProps {
-  position: [number, number];
-}
+export const ClinicLocation: React.FC = () => {
+  const { name, location, contact } = clinicInformation;
+  const position: [number, number] = [location.latitude, location.longitude];
 
-export const ClinicLocation: React.FC<ClinicLocationProps> = ({ position }) => {
   return (
     <Content>
       <Row gutter={[16, 16]} justify={'center'}>
@@ -28,7 +28,9 @@ export const ClinicLocation: React.FC<ClinicLocationProps> = ({ position }) => {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
             <Marker position={position}>
-              <Popup>Orthopedic Spine -100 mts Norte de la Municipalidad de San Rafael, Cartago 📍</Popup>
+              <Popup>
+                `${name} - ${location.address}📍`
+              </Popup>
             </Marker>
           </MapContainer>
         </Card>
@@ -36,17 +38,21 @@ export const ClinicLocation: React.FC<ClinicLocationProps> = ({ position }) => {
 
       <Row justify={'center'}>
         <Card title="Contáctenos" style={{ width: '100%', marginTop: 10, borderRadius: 10 }}>
-          <Title level={4}>Orthopedic Spine </Title>
-          <Text>100 mts Norte de la Municipalidad de San Rafael, Cartago</Text>
+          <Title level={4}>{name} </Title>
+          <Text>{location.address}</Text>
 
           <div style={{ marginTop: '20px' }}>
             <Title level={5}>Llámenos</Title>
-            <a href="tel:+50688888888">+506 8888-8888 </a> | <a href="tel:+5069999999">+506 9999-9999 </a>
+            {contact.phones.map((phone, index) => (
+              <a key={index} href={`tel:${phone}`}>
+                {phone}{' '}
+              </a>
+            ))}
           </div>
           <div style={{ marginTop: '20px' }}>
             <Title level={5}>Email</Title>
-            <a href="mailto:info.orthopedic_spine@clinics.com" style={{ wordBreak: 'break-word' }}>
-              info.orthopedic_spine@clinics.com
+            <a href={`mailto:${contact.email}`} style={{ wordBreak: 'break-word' }}>
+              {contact.email}
             </a>
           </div>
         </Card>
