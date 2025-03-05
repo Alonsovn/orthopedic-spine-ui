@@ -20,12 +20,12 @@ const LocationButtons: React.FC<LocationProps> = ({ latitude, longitude }) => {
       <Button
         size="large"
         style={{
-          width: '50px', // Set the button width
-          height: '50px', // Set the button height
-          padding: 0, // Remove internal padding
+          width: '50px',
+          height: '50px',
+          padding: 0,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center', // Center the icon in the button
+          justifyContent: 'center',
         }}
         onClick={() => window.open(googleMapsUrl, '_blank')}
       >
@@ -34,9 +34,9 @@ const LocationButtons: React.FC<LocationProps> = ({ latitude, longitude }) => {
           alt="Google Maps"
           preview={false}
           style={{
-            width: '100%', // Make image fill the button
-            height: '100%', // Make image fill the button
-            objectFit: 'cover', // Ensure image aspect ratio is maintained and it fills the button area
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
           }}
         />
       </Button>
@@ -44,12 +44,12 @@ const LocationButtons: React.FC<LocationProps> = ({ latitude, longitude }) => {
       <Button
         size="large"
         style={{
-          width: '50px', // Set the button width
-          height: '50px', // Set the button height
-          padding: 0, // Remove internal padding
+          width: '50px',
+          height: '50px',
+          padding: 0,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center', // Center the icon in the button
+          justifyContent: 'center',
         }}
         onClick={() => window.open(wazeUrl, '_blank')}
       >
@@ -58,9 +58,9 @@ const LocationButtons: React.FC<LocationProps> = ({ latitude, longitude }) => {
           alt="Waze"
           preview={false}
           style={{
-            width: '100%', // Make image fill the button
-            height: '100%', // Make image fill the button
-            objectFit: 'cover', // Ensure image aspect ratio is maintained and it fills the button area
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
           }}
         />
       </Button>
