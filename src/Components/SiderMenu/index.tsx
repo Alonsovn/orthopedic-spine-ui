@@ -1,9 +1,11 @@
 import { Col, Divider, Layout, Menu, Row } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../Assets/logo.png';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../Redux/store';
 import { setSearchQuery, setSiderMenuSelectedKey } from '../../Redux/Slices/uiSlice';
+import { useCallback, useEffect, useState } from 'react';
+import { useDividerStyle, useLogoStyle } from '../../Style';
 
 const { Sider } = Layout;
 
@@ -21,38 +23,46 @@ const SiderMenu: React.FC<SiderMenuItemsProps> = ({ items }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const collapsed = useSelector((state: RootState) => state.ui.siderMenuCollapsed);
-  const siderMenuSelectedKey = useSelector((state: RootState) => state.ui.siderMenuSelectedKey);
+  const logoStyle = useLogoStyle();
+  const dividerStyle = useDividerStyle();
 
-  const handleOnSelectMenu = (item: { key: string }) => {
-    dispatch(setSearchQuery(''));
-    dispatch(setSiderMenuSelectedKey(item.key));
-    navigate(item.key);
-  };
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  const { collapsed, siderMenuSelectedKey } = useSelector(
+    (state: RootState) => ({
+      collapsed: state.ui.siderMenuCollapsed,
+      siderMenuSelectedKey: state.ui.siderMenuSelectedKey,
+    }),
+    shallowEqual,
+  );
+
+  // Handle responsive sidebar
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleOnSelectMenu = useCallback(
+    (item: { key: string }) => {
+      dispatch(setSearchQuery(''));
+      dispatch(setSiderMenuSelectedKey(item.key));
+      navigate(item.key);
+    },
+    [dispatch, navigate],
+  );
 
   return (
-    <Sider trigger={null} collapsible collapsed={collapsed}>
-      <Row>
+    <Sider width={150} collapsedWidth={90} trigger={null} collapsible collapsed={collapsed || isMobile}>
+      <Row justify="center" align="middle">
         <Col span={20}>
-          <img
-            src={logo}
-            alt="logo"
-            loading="lazy"
-            style={{
-              width: 80,
-              height: 60,
-              paddingInline: 5,
-              marginTop: 10,
-              borderRadius: 30,
-            }}
-          />
+          <img src={logo} alt="logo" loading="lazy" style={logoStyle} />
         </Col>
-        <Divider style={{ borderColor: 'white' }}></Divider>
+        <Divider style={dividerStyle} />
       </Row>
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={['1']}
         selectedKeys={[siderMenuSelectedKey]}
         items={items}
         onSelect={handleOnSelectMenu}
