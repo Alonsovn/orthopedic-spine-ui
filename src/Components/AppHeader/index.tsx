@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSearchQuery, toggleCollapseSiderMenu } from '../../Redux/Slices/uiSlice';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useResponsive } from '../../Hooks';
+import { useCollapsedButtonStyle, useHeaderStyle } from '../../Style';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -22,6 +24,10 @@ const AppHeader: React.FC = () => {
 
   const [inputSearchQuery, setInputSearchQuery] = useState<string>(searchQuery);
 
+  const isMobile = useResponsive();
+  const headerStyle = useHeaderStyle(colorBgContainer);
+  const collapsedButtonStyle = useCollapsedButtonStyle(isMobile);
+
   useEffect(() => {
     setInputSearchQuery(searchQuery);
   }, [searchQuery]);
@@ -38,23 +44,12 @@ const AppHeader: React.FC = () => {
   };
 
   return (
-    <Header
-      style={{
-        padding: '0 20px',
-        background: colorBgContainer,
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
+    <Header style={headerStyle}>
       <Button
         type="text"
         icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         onClick={() => dispatch(toggleCollapseSiderMenu())}
-        style={{
-          fontSize: '16px',
-          width: 64,
-          height: 64,
-        }}
+        style={collapsedButtonStyle}
       />
 
       <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>

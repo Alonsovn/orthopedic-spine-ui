@@ -10,3 +10,17 @@ export const useDividerStyle = () => ({
   borderColor: 'white',
   margin: '12 0',
 });
+
+export const useHeaderStyle = (colorBgContainer: string) => ({
+  padding: '0 20px',
+  background: colorBgContainer,
+  display: 'flex',
+  alignItems: 'center',
+});
+
+export const useCollapsedButtonStyle = (isMobile: boolean) => ({
+  fontSize: '16px',
+  width: 64,
+  height: 64,
+  display: isMobile ? 'none' : 'block',
+});
