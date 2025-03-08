@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../Redux/store';
 import { setTestimonies } from '../../Redux/Slices/testimoniesSlice';
+import { useGetTestimonialsQuery } from '../../Api/orthopedicSpineApi';
 const { Title, Paragraph } = Typography;
 const { Content } = Layout;
 
@@ -14,7 +15,7 @@ export interface Testimony {
   firstName: string;
   lastName: string;
   rating: number;
-  opinion: string;
+  comment: string;
 }
 
 const Testimonies: React.FC = () => {
@@ -24,11 +25,15 @@ const Testimonies: React.FC = () => {
   const [showModalAddTestimony, setShowModalAddTestimony] = useState(false);
   const [form] = Form.useForm();
 
+  const { data: testimonialsData } = useGetTestimonialsQuery({});
+
   useEffect(() => {
-    if (testimonies.length === 0) {
+    if (testimonialsData) {
+      dispatch(setTestimonies(testimonialsData));
+    } else {
       dispatch(setTestimonies(testimoniesMockData));
     }
-  }, [testimonies, dispatch]);
+  }, [testimonialsData, dispatch]);
 
   const handleShowModal = () => {
     setShowModalAddTestimony(true);
@@ -38,13 +43,13 @@ const Testimonies: React.FC = () => {
     setShowModalAddTestimony(false);
   };
 
-  const handleAddTestimony = (values: { firstName: string; lastName: string; rating: number; opinion: string }) => {
+  const handleAddTestimony = (values: { firstName: string; lastName: string; rating: number; comment: string }) => {
     const newTestimony: Testimony = {
       id: testimonies.length + 1,
       firstName: values.firstName,
       lastName: values.lastName,
       rating: values.rating,
-      opinion: values.opinion,
+      comment: values.comment,
     };
     dispatch(setTestimonies([...testimonies, newTestimony]));
     cancelShowModal();
@@ -72,7 +77,7 @@ const Testimonies: React.FC = () => {
                     {testimony.firstName} {testimony.lastName}
                   </Title>
                   <Rate disabled value={testimony.rating} />
-                  <Paragraph> {testimony.opinion}</Paragraph>
+                  <Paragraph> {testimony.comment}</Paragraph>
                 </Card>
               </motion.div>
             </Col>

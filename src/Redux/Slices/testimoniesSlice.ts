@@ -5,7 +5,7 @@ interface Testimony {
   firstName: string;
   lastName: string;
   rating: number;
-  opinion: string;
+  comment: string;
 }
 
 interface TestimonyState {
