@@ -2,13 +2,21 @@ import { Col, Layout, Row, Typography } from 'antd';
 import { ContactForm } from '../../Components/ContactForm';
 import { ClinicLocation } from '../../Components/ClinicLocation';
 import { ScheduleAppointment } from '../../Components/ScheduleAppointment';
+import { useSendEmailMutation } from '../../Api/orthopedicSpineApi';
 
 const { Title } = Typography;
 const { Content } = Layout;
 
 export const Contact: React.FC = () => {
+  const [sendEmail] = useSendEmailMutation();
+
   const onSubmitContactForm = (values: { name: string; email: string; message: string; confirm: boolean }) => {
     console.log('Form values: ', values);
+    sendEmail({
+      fromUser: values.email,
+      subject: values.name,
+      message: values.message,
+    });
   };
 
   return (
