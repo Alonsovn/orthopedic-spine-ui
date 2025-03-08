@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Form, Input, Space, Typography } from 'antd';
+import { Button, Card, Checkbox, Col, Form, Input, Row, Space, Typography } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 
 const { Title, Text, Link } = Typography;
@@ -96,14 +96,18 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onFinish }) => {
           </Form.Item>
 
           <Form.Item style={{ textAlign: 'right' }}>
-            <Space>
-              <Button type="default" onClick={handleReset}>
-                Limpiar
-              </Button>
-              <Button type="primary" htmlType="submit" style={{ marginLeft: '10px' }}>
-                ENVIAR
-              </Button>
-            </Space>
+            <Row justify="end">
+              <Col>
+                <Button type="default" onClick={handleReset}>
+                  Limpiar
+                </Button>
+              </Col>
+              <Col>
+                <Button type="primary" htmlType="submit" style={{ marginLeft: '10px' }}>
+                  ENVIAR
+                </Button>
+              </Col>
+            </Row>
           </Form.Item>
         </Form>
       </Card>
