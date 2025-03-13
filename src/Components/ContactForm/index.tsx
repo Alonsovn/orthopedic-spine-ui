@@ -95,20 +95,18 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onFinish }) => {
             </Checkbox>
           </Form.Item>
 
-          <Form.Item style={{ textAlign: 'right' }}>
-            <Row justify="end">
-              <Col>
-                <Button type="default" onClick={handleReset}>
-                  Limpiar
-                </Button>
-              </Col>
-              <Col>
-                <Button type="primary" htmlType="submit" style={{ marginLeft: '10px' }}>
-                  ENVIAR
-                </Button>
-              </Col>
-            </Row>
-          </Form.Item>
+          <Row justify="end" gutter={10}>
+            <Col>
+              <Button type="default" onClick={handleReset}>
+                Limpiar
+              </Button>
+            </Col>
+            <Col>
+              <Button type="primary" htmlType="submit" style={{ marginLeft: '10px' }}>
+                ENVIAR
+              </Button>
+            </Col>
+          </Row>
         </Form>
       </Card>
     </Content>
