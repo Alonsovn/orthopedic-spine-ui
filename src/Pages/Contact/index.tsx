@@ -26,7 +26,7 @@ export const Contact: React.FC = () => {
         }
 
         message.success('Mensaje enviado con éxito');
-      } catch (error) {
+      } catch {
         message.error('Error al enviar el mensaje. Inténtelo de nuevo.');
       }
     },
