@@ -28,7 +28,7 @@ const Testimonies: React.FC = () => {
   const { data: testimonialsData } = useGetTestimonialsQuery({});
 
   useEffect(() => {
-    if (testimonialsData) {
+    if (testimonialsData && testimonialsData?.length > 0) {
       dispatch(setTestimonies(testimonialsData));
     } else {
       dispatch(setTestimonies(testimoniesMockData));
