@@ -1,17 +1,16 @@
 import { PlusCircleFilled, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Card, Col, Form, Input, Layout, Modal, Rate, Row, Space, Typography } from 'antd';
+import { Avatar, Button, Card, Col, Form, Input, Layout, message, Modal, Rate, Row, Space, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { testimoniesMockData } from '../../Resources/MockData/testimonies';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../Redux/store';
 import { setTestimonies } from '../../Redux/Slices/testimoniesSlice';
-import { useGetTestimonialsQuery } from '../../Api/orthopedicSpineApi';
+import { useCreateTestimonialMutation, useGetTestimonialsQuery } from '../../Api/orthopedicSpineApi';
 const { Title, Paragraph } = Typography;
 const { Content } = Layout;
 
 export interface Testimony {
-  id: number;
   firstName: string;
   lastName: string;
   rating: number;
@@ -26,6 +25,7 @@ const Testimonies: React.FC = () => {
   const [form] = Form.useForm();
 
   const { data: testimonialsData } = useGetTestimonialsQuery({});
+  const [createTestimonial] = useCreateTestimonialMutation();
 
   useEffect(() => {
     if (testimonialsData && testimonialsData?.length > 0) {
@@ -43,18 +43,30 @@ const Testimonies: React.FC = () => {
     setShowModalAddTestimony(false);
   };
 
-  const handleAddTestimony = (values: { firstName: string; lastName: string; rating: number; comment: string }) => {
-    const newTestimony: Testimony = {
-      id: testimonies.length + 1,
-      firstName: values.firstName,
-      lastName: values.lastName,
-      rating: values.rating,
-      comment: values.comment,
-    };
-    dispatch(setTestimonies([...testimonies, newTestimony]));
-    cancelShowModal();
-    form.resetFields();
-  };
+  const handleAddTestimony = useCallback(
+    async (values: { firstName: string; lastName: string; rating: number; comment: string }) => {
+      try {
+        const newTestimonial: Testimony = {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          rating: values.rating,
+          comment: values.comment,
+        };
+        const response = await createTestimonial(newTestimonial).unwrap();
+        if (response.error) {
+          message.error('Error al agregar un testimonio. Inténtelo de nuevo.');
+          return;
+        }
+
+        message.success('Testimonio agregado con éxito!');
+        cancelShowModal();
+        form.resetFields();
+      } catch {
+        message.error('Error al agregar testimonio');
+      }
+    },
+    [createTestimonial, form],
+  );
 
   return (
     <>
@@ -128,16 +140,16 @@ const Testimonies: React.FC = () => {
             <Rate />
           </Form.Item>
           <Form.Item
-            label="Opinión"
-            name="opinion"
+            label="Comentario"
+            name="comment"
             rules={[
               {
                 required: true,
-                message: 'Por favor ingrese su opinión',
+                message: 'Por favor ingrese su comentario',
               },
             ]}
           >
-            <Input.TextArea placeholder="Opinión" rows={4} />
+            <Input.TextArea placeholder="Comentario" rows={4} />
           </Form.Item>
           <Form.Item style={{ textAlign: 'right' }}>
             <Space>

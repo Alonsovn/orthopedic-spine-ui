@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const apiBaseUrl = 'http://127.0.0.1:8000';
+const apiBaseUrl = 'http://localhost:8000/';
 
 export const orthopedicSpineApi = createApi({
   reducerPath: 'orthopedicSpineApi',
@@ -19,7 +19,7 @@ export const orthopedicSpineApi = createApi({
       providesTags: ['testimonial'],
     }),
 
-    createTestimony: builder.mutation({
+    createTestimonial: builder.mutation({
       query: (body) => ({
         url: 'testimonial/',
         method: 'POST',
@@ -41,4 +41,4 @@ export const orthopedicSpineApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetTestimonialsQuery, useCreateTestimonyMutation, useSendEmailMutation } = orthopedicSpineApi;
+export const { useGetTestimonialsQuery, useCreateTestimonialMutation, useSendEmailMutation } = orthopedicSpineApi;
