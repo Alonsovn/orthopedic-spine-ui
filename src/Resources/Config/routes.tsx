@@ -2,6 +2,7 @@ import { RouteItem } from '../../Components/AppRoutes';
 import AboutUs from '../../Pages/AboutUs';
 import { Contact } from '../../Pages/Contact';
 import Home from '../../Pages/Home';
+import Login from '../../Pages/Login';
 import NotFound from '../../Pages/NotFound';
 import PrivacyAndCookiesPolicy from '../../Pages/PrivacyAndCookiesPolicy';
 import { SearchResults } from '../../Pages/SearchResults';
@@ -18,5 +19,7 @@ export const routes: RouteItem[] = [
   { path: 'about-us', element: <AboutUs /> },
   { path: 'search', element: <SearchResults /> },
   { path: 'privacy-and-cookies-policy', element: <PrivacyAndCookiesPolicy /> },
+  { path: 'login', element: <Login /> },
+
   { path: '*', element: <NotFound /> },
 ];
