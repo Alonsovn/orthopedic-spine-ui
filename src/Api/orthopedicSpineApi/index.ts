@@ -1,18 +1,47 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { RootState } from '../../Redux/store';
 
-const apiBaseUrl = 'http://localhost:8000/';
+export const apiBaseUrl = 'http://localhost:8000/';
+
+const customBaseQuery = fetchBaseQuery({
+  baseUrl: apiBaseUrl,
+  prepareHeaders: (headers, { getState }) => {
+    const state = getState() as RootState;
+    const access_token = state.user.access_token;
+    if (access_token) {
+      headers.set('Authorization', `Bearer ${access_token}`);
+    }
+    return headers;
+  },
+});
 
 export const orthopedicSpineApi = createApi({
   reducerPath: 'orthopedicSpineApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: apiBaseUrl,
-  }),
+  baseQuery: customBaseQuery,
 
   keepUnusedDataFor: 3600,
 
-  tagTypes: ['testimonial'],
+  tagTypes: ['testimonial', 'auth'],
 
   endpoints: (builder) => ({
+    // User auth
+    login: builder.mutation({
+      query: (credentials: { email: string; password: string }) => ({
+        url: 'user/login/',
+        method: 'POST',
+        body: credentials,
+      }),
+      invalidatesTags: ['auth'],
+    }),
+    refreshToken: builder.mutation({
+      query: (refreshToken: string) => ({
+        url: 'user/refresh-token/',
+        method: 'POST',
+        body: { refreshToken },
+      }),
+      invalidatesTags: ['auth'],
+    }),
+
     //Testimonials
     getTestimonials: builder.query({
       query: () => 'testimonial/all',
@@ -41,4 +70,10 @@ export const orthopedicSpineApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetTestimonialsQuery, useCreateTestimonialMutation, useSendEmailMutation } = orthopedicSpineApi;
+export const {
+  useLoginMutation,
+  useRefreshTokenMutation,
+  useGetTestimonialsQuery,
+  useCreateTestimonialMutation,
+  useSendEmailMutation,
+} = orthopedicSpineApi;
