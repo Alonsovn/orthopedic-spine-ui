@@ -8,6 +8,9 @@ import { AppFooter } from '../../Components/AppFooter';
 import { AppFloatButton } from '../../Components/AppFloatButton';
 import { siderMenuitems } from '../../Resources/Config/siderMenu';
 import { routes } from '../../Resources/Config/routes';
+import { shallowEqual, useSelector } from 'react-redux';
+import { RootState } from '../../Redux/store';
+import Login from '../Login';
 
 const { Content } = Layout;
 const contentStyle: React.CSSProperties = {
@@ -20,14 +23,19 @@ const contentStyle: React.CSSProperties = {
 };
 
 const App = () => {
+  const { loggedIn } = useSelector(
+    (state: RootState) => ({
+      loggedIn: state.user.loggedIn,
+    }),
+    shallowEqual,
+  );
+
   return (
     <Layout style={{ height: '100vh', width: '100%' }}>
       <SiderMenu items={siderMenuitems} />
       <Layout>
         <AppHeader />
-        <Content style={contentStyle}>
-          <AppRoutes routes={routes} />
-        </Content>
+        <Content style={contentStyle}>{loggedIn ? <AppRoutes routes={routes} /> : <Login />}</Content>
         <AppFooter />
       </Layout>
       <AppFloatButton />
