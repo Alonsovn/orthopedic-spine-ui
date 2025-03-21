@@ -3,7 +3,7 @@ import { Avatar, Button, Card, Col, Form, Input, Layout, message, Modal, Rate, R
 import { motion } from 'framer-motion';
 import { testimonialsMockData } from '../../Resources/MockData/testimonials';
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../Redux/store';
 import { setTestimonials } from '../../Redux/Slices/testimonialSlice';
 import { useCreateTestimonialMutation, useGetTestimonialsQuery } from '../../Api/orthopedicSpineApi';
@@ -23,6 +23,13 @@ const Testimonials: React.FC = () => {
   const testimonials = useSelector((state: RootState) => state.testimonial.testimonials);
   const [showModalAddTestimonial, setShowModalAddTestimonial] = useState(false);
   const [form] = Form.useForm();
+
+  const { loggedIn } = useSelector(
+    (state: RootState) => ({
+      loggedIn: state.user.loggedIn,
+    }),
+    shallowEqual,
+  );
 
   const { data: testimonialsData } = useGetTestimonialsQuery({});
   const [createTestimonial] = useCreateTestimonialMutation();
@@ -96,11 +103,15 @@ const Testimonials: React.FC = () => {
           ))}
         </Row>
       </Content>
-      <Row justify="end">
-        <Button type="primary" shape="circle" size="large" onClick={handleShowModal}>
-          <PlusCircleFilled />
-        </Button>
-      </Row>
+
+      {!!loggedIn && (
+        <Row justify="end">
+          <Button type="primary" shape="circle" size="large" onClick={handleShowModal}>
+            <PlusCircleFilled />
+          </Button>
+        </Row>
+      )}
+
       <Modal title="Agregar nuevo testimonio" open={showModalAddTestimonial} onCancel={cancelShowModal} footer={null}>
         <Form form={form} onFinish={handleAddTestimonial}>
           <Form.Item
