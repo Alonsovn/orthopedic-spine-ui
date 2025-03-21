@@ -2,6 +2,10 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../../Redux/store';
 import { logout, refreshTokens } from '../../Redux/Slices/userSlice';
 
+interface RefreshTokenResponse {
+  accessToken: string;
+  refreshToken: string;
+}
 export const apiBaseUrl = 'http://localhost:8000/';
 
 const baseQuery = fetchBaseQuery({
@@ -38,10 +42,11 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 
       if (refreshResponse.data) {
         // Update tokens in Redux store
+        const data = refreshResponse.data as RefreshTokenResponse;
         api.dispatch(
           refreshTokens({
-            accessToken: refreshResponse.data.accessToken,
-            refreshToken: refreshResponse.data.refreshToken,
+            accessToken: data.accessToken,
+            refreshToken: data.refreshToken,
           }),
         );
 
