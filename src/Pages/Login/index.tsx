@@ -17,15 +17,15 @@ const Login: React.FC = () => {
     try {
       const response = await loginApi(values).unwrap();
 
-      if (!response || !response.access_token || !response.refresh_token) {
+      if (!response || !response.accessToken || !response.refreshToken) {
         throw new Error('Login failed. Please check your credentials.');
       }
 
       const payload = {
         email: values.email,
         password: values.password,
-        accessToken: response.access_token,
-        refreshToken: response.refresh_token,
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken,
       };
 
       dispatch(login(payload));
