@@ -1,20 +1,44 @@
-import { Button, Card, Checkbox, Col, Form, Input, Row, Space, Typography } from 'antd';
+import { Button, Card, Checkbox, Col, Form, Input, message, Row, Typography } from 'antd';
 import { Content } from 'antd/es/layout/layout';
+import { useCallback } from 'react';
+import { useSendEmailMutation } from '../../Api/orthopedicSpineApi';
 
 const { Title, Text, Link } = Typography;
 
-interface ContactFormProps {
-  onFinish: (values: { name: string; email: string; message: string; confirm: boolean }) => void;
-}
-
 const initialFormValues = { name: '', email: '', message: '', confirm: false };
 
-export const ContactForm: React.FC<ContactFormProps> = ({ onFinish }) => {
+export const ContactForm: React.FC = () => {
   const [form] = Form.useForm();
 
-  const handleReset = () => {
+  const [sendEmail] = useSendEmailMutation();
+
+  const handleReset = useCallback(() => {
     form.resetFields();
-  };
+  }, [form]);
+
+  const onSubmitContactForm = useCallback(
+    async (values: { name: string; email: string; message: string; confirm: boolean }) => {
+      try {
+        handleReset();
+        const payload = {
+          fromUser: values.email,
+          subject: values.name,
+          message: values.message,
+        };
+        const response = await sendEmail(payload).unwrap();
+
+        if (response.error) {
+          message.error('Error al enviar el mensaje. Inténtelo de nuevo.');
+          return;
+        }
+
+        message.success('Mensaje enviado con éxito');
+      } catch {
+        message.error('Error al enviar el mensaje. Inténtelo de nuevo.');
+      }
+    },
+    [sendEmail, handleReset],
+  );
 
   return (
     <Content style={{ alignContent: 'center' }}>
@@ -27,7 +51,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onFinish }) => {
         <Form
           form={form}
           layout="vertical"
-          onFinish={onFinish}
+          onFinish={onSubmitContactForm}
           autoComplete="off"
           initialValues={initialFormValues}
           style={{ marginTop: 20 }}
