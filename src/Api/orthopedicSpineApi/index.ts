@@ -76,10 +76,10 @@ export const orthopedicSpineApi = createApi({
   endpoints: (builder) => ({
     // User auth
     login: builder.mutation({
-      query: (credentials: { email: string; password: string }) => ({
+      query: (body) => ({
         url: 'user/login/',
         method: 'POST',
-        body: credentials,
+        body,
       }),
       invalidatesTags: ['auth'],
     }),
