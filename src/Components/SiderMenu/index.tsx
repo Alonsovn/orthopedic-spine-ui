@@ -52,11 +52,15 @@ const SiderMenu: React.FC<SiderMenuItemsProps> = ({ items }) => {
     [dispatch, navigate],
   );
 
+  const onClickLogo = () => {
+    navigate('/');
+  };
+
   return (
     <Sider width={150} collapsedWidth={90} trigger={null} collapsible collapsed={collapsed || isMobile}>
       <Row justify="center" align="middle">
         <Col span={20}>
-          <img src={logo} alt="logo" loading="lazy" style={logoStyle} />
+          <img src={logo} alt="logo" loading="lazy" style={logoStyle} onClick={onClickLogo} />
         </Col>
         <Divider style={dividerStyle} />
       </Row>

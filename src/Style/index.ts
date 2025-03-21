@@ -4,6 +4,7 @@ export const useLogoStyle = () => ({
   paddingInline: 5,
   marginTop: 10,
   borderRadius: 30,
+  cursor: 'pointer',
 });
 
 export const useDividerStyle = () => ({
