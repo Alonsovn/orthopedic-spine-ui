@@ -18,7 +18,7 @@ const Login: React.FC = () => {
       const response = await loginApi(values).unwrap();
 
       if (!response || !response.accessToken || !response.refreshToken) {
-        throw new Error('Login failed. Please check your credentials.');
+        throw new Error('Inicio de sesión fallido. Por favor, verifica tus credenciales.');
       }
 
       const payload = {
@@ -30,9 +30,9 @@ const Login: React.FC = () => {
 
       dispatch(login(payload));
 
-      message.success('Logged in successfully!');
+      message.success('¡Inicio de sesión exitoso!');
     } catch (error) {
-      message.error('Login failed. Please check your credentials.');
+      message.error('Inicio de sesión fallido. Por favor, verifica tus credenciales.');
     }
   };
 
