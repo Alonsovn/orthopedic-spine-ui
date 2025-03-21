@@ -1,13 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../../Redux/store';
+import { logout, refreshTokens } from '../../Redux/Slices/userSlice';
 
 export const apiBaseUrl = 'http://localhost:8000/';
 
-const customBaseQuery = fetchBaseQuery({
+const baseQuery = fetchBaseQuery({
   baseUrl: apiBaseUrl,
   prepareHeaders: (headers, { getState }) => {
     const state = getState() as RootState;
-    const access_token = state.user.access_token;
+    const access_token = state.user.accessToken;
     if (access_token) {
       headers.set('Authorization', `Bearer ${access_token}`);
     }
@@ -15,9 +16,53 @@ const customBaseQuery = fetchBaseQuery({
   },
 });
 
+const baseQueryWithReAuth = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions);
+
+  if (result.error && result.error.status === 401) {
+    // Unauthorized error: try to refresh token
+    const state = api.getState() as RootState;
+    const refreshToken = state.user.refreshToken;
+
+    if (refreshToken) {
+      // Try refreshing the token
+      const refreshResponse = await baseQuery(
+        {
+          url: 'user/refresh-token',
+          method: 'POST',
+          body: { refreshToken: refreshToken },
+        },
+        api,
+        extraOptions,
+      );
+
+      if (refreshResponse.data) {
+        // Update tokens in Redux store
+        api.dispatch(
+          refreshTokens({
+            accessToken: refreshResponse.data.accessToken,
+            refreshToken: refreshResponse.data.refreshToken,
+          }),
+        );
+
+        // Retry the original request with new token
+        result = await baseQuery(args, api, extraOptions);
+      } else {
+        // Refresh token failed, logout user
+        api.dispatch(logout());
+      }
+    } else {
+      // No refresh token available, force logout
+      api.dispatch(logout());
+    }
+  }
+
+  return result;
+};
+
 export const orthopedicSpineApi = createApi({
   reducerPath: 'orthopedicSpineApi',
-  baseQuery: customBaseQuery,
+  baseQuery: baseQueryWithReAuth,
 
   keepUnusedDataFor: 3600,
 
@@ -30,14 +75,6 @@ export const orthopedicSpineApi = createApi({
         url: 'user/login/',
         method: 'POST',
         body: credentials,
-      }),
-      invalidatesTags: ['auth'],
-    }),
-    refreshToken: builder.mutation({
-      query: (refreshToken: string) => ({
-        url: 'user/refresh-token/',
-        method: 'POST',
-        body: { refreshToken },
       }),
       invalidatesTags: ['auth'],
     }),
@@ -70,10 +107,5 @@ export const orthopedicSpineApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const {
-  useLoginMutation,
-  useRefreshTokenMutation,
-  useGetTestimonialsQuery,
-  useCreateTestimonialMutation,
-  useSendEmailMutation,
-} = orthopedicSpineApi;
+export const { useLoginMutation, useGetTestimonialsQuery, useCreateTestimonialMutation, useSendEmailMutation } =
+  orthopedicSpineApi;
