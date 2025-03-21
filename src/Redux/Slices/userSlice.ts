@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { refreshToken } from '../../Api/orthopedicSpineApi/auth_helper';
 
 interface UserState {
   email: string;
