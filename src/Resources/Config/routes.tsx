@@ -8,7 +8,7 @@ import PrivacyAndCookiesPolicy from '../../Pages/PrivacyAndCookiesPolicy';
 import { SearchResults } from '../../Pages/SearchResults';
 import { ServiceDetail } from '../../Pages/ServiceDetail';
 import Services from '../../Pages/Services';
-import Testimonies from '../../Pages/Testimonies';
+import Testimonies from '../../Pages/Testimonials';
 
 export const routes: RouteItem[] = [
   { path: '/', element: <Home /> },

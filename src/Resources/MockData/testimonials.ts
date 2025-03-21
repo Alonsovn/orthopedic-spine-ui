@@ -1,6 +1,4 @@
-import { Testimony } from '../../Pages/Testimonies';
-
-export const testimoniesMockData: Testimony[] = [
+export const testimonialsMockData = [
   {
     id: 1,
     firstName: 'Elena',

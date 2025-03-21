@@ -1,27 +1,27 @@
 import { PlusCircleFilled, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Card, Col, Form, Input, Layout, message, Modal, Rate, Row, Space, Typography } from 'antd';
 import { motion } from 'framer-motion';
-import { testimoniesMockData } from '../../Resources/MockData/testimonies';
+import { testimonialsMockData } from '../../Resources/MockData/testimonials';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../Redux/store';
-import { setTestimonies } from '../../Redux/Slices/testimoniesSlice';
+import { setTestimonials } from '../../Redux/Slices/testimonialSlice';
 import { useCreateTestimonialMutation, useGetTestimonialsQuery } from '../../Api/orthopedicSpineApi';
 const { Title, Paragraph } = Typography;
 const { Content } = Layout;
 
-export interface Testimony {
+export interface Testimonial {
   firstName: string;
   lastName: string;
   rating: number;
   comment: string;
 }
 
-const Testimonies: React.FC = () => {
+const Testimonials: React.FC = () => {
   const dispatch = useDispatch();
 
-  const testimonies = useSelector((state: RootState) => state.testimonies.testimonies);
-  const [showModalAddTestimony, setShowModalAddTestimony] = useState(false);
+  const testimonials = useSelector((state: RootState) => state.testimonial.testimonials);
+  const [showModalAddTestimonial, setShowModalAddTestimonial] = useState(false);
   const [form] = Form.useForm();
 
   const { data: testimonialsData } = useGetTestimonialsQuery({});
@@ -29,24 +29,24 @@ const Testimonies: React.FC = () => {
 
   useEffect(() => {
     if (testimonialsData && testimonialsData?.length > 0) {
-      dispatch(setTestimonies(testimonialsData));
+      dispatch(setTestimonials(testimonialsData));
     } else {
-      dispatch(setTestimonies(testimoniesMockData));
+      dispatch(setTestimonials(testimonialsMockData));
     }
   }, [testimonialsData, dispatch]);
 
   const handleShowModal = () => {
-    setShowModalAddTestimony(true);
+    setShowModalAddTestimonial(true);
   };
 
   const cancelShowModal = () => {
-    setShowModalAddTestimony(false);
+    setShowModalAddTestimonial(false);
   };
 
-  const handleAddTestimony = useCallback(
+  const handleAddTestimonial = useCallback(
     async (values: { firstName: string; lastName: string; rating: number; comment: string }) => {
       try {
-        const newTestimonial: Testimony = {
+        const newTestimonial: Testimonial = {
           firstName: values.firstName,
           lastName: values.lastName,
           rating: values.rating,
@@ -62,7 +62,7 @@ const Testimonies: React.FC = () => {
         cancelShowModal();
         form.resetFields();
       } catch {
-        message.error('Error al agregar testimonio');
+        message.error('Error al agregar el testimonio');
       }
     },
     [createTestimonial, form],
@@ -73,10 +73,10 @@ const Testimonies: React.FC = () => {
       <Title level={1}>Dicen de nostros...</Title>
       <Content style={{ padding: 20 }}>
         <Row gutter={[16, 16]} justify="center">
-          {testimonies.map((testimony) => (
-            <Col key={testimony.id} xs={24} sm={12} md={8} lg={8}>
+          {testimonials.map((testimonial) => (
+            <Col key={testimonial.id} xs={24} sm={12} md={8} lg={8}>
               <motion.div
-                key={testimony.id}
+                key={testimonial.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
@@ -86,10 +86,10 @@ const Testimonies: React.FC = () => {
                   cover={<Avatar style={{ backgroundColor: '#1890ff' }} icon={<UserOutlined />} />}
                 >
                   <Title level={4}>
-                    {testimony.firstName} {testimony.lastName}
+                    {testimonial.firstName} {testimonial.lastName}
                   </Title>
-                  <Rate disabled value={testimony.rating} />
-                  <Paragraph> {testimony.comment}</Paragraph>
+                  <Rate disabled value={testimonial.rating} />
+                  <Paragraph> {testimonial.comment}</Paragraph>
                 </Card>
               </motion.div>
             </Col>
@@ -101,8 +101,8 @@ const Testimonies: React.FC = () => {
           <PlusCircleFilled />
         </Button>
       </Row>
-      <Modal title="Agregar nuevo testimonio" open={showModalAddTestimony} onCancel={cancelShowModal} footer={null}>
-        <Form form={form} onFinish={handleAddTestimony}>
+      <Modal title="Agregar nuevo testimonio" open={showModalAddTestimonial} onCancel={cancelShowModal} footer={null}>
+        <Form form={form} onFinish={handleAddTestimonial}>
           <Form.Item
             label="Nombre"
             name="firstName"
@@ -167,4 +167,4 @@ const Testimonies: React.FC = () => {
   );
 };
 
-export default Testimonies;
+export default Testimonials;
