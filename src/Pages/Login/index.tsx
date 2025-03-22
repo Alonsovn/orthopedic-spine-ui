@@ -4,12 +4,14 @@ import { Form, Input, Button, Layout, Typography, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { login } from '../../Redux/Slices/userSlice';
 import { useLoginMutation } from '../../Api/orthopedicSpineApi';
+import { useNavigate } from 'react-router-dom';
 
 const { Content } = Layout;
 const { Title } = Typography;
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [loginApi, { isLoading }] = useLoginMutation();
 
@@ -29,6 +31,7 @@ const Login: React.FC = () => {
       };
 
       dispatch(login(payload));
+      navigate('/');
 
       message.success('¡Inicio de sesión exitoso!');
     } catch (error) {
