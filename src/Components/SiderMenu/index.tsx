@@ -1,4 +1,4 @@
-import { Col, Divider, Layout, Menu, Row } from 'antd';
+import { Col, Divider, Layout, Menu, message, Row } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../Assets/logo.png';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -6,6 +6,8 @@ import { RootState } from '../../Redux/store';
 import { setSearchQuery, setSiderMenuSelectedKey } from '../../Redux/Slices/uiSlice';
 import { useCallback, useEffect, useState } from 'react';
 import { useDividerStyle, useLogoStyle } from '../../Style';
+import { logout } from '../../Redux/Slices/userSlice';
+import { LogoutOutlined } from '@ant-design/icons';
 
 const { Sider } = Layout;
 
@@ -35,6 +37,12 @@ const SiderMenu: React.FC<SiderMenuItemsProps> = ({ items }) => {
     }),
     shallowEqual,
   );
+  const { loggedIn } = useSelector(
+    (state: RootState) => ({
+      loggedIn: state.user.loggedIn,
+    }),
+    shallowEqual,
+  );
 
   // Handle responsive sidebar
   useEffect(() => {
@@ -56,6 +64,12 @@ const SiderMenu: React.FC<SiderMenuItemsProps> = ({ items }) => {
     navigate('/');
   };
 
+  const onLogout = () => {
+    dispatch(logout());
+    message.success('Cierre de sesión exitoso!');
+    navigate('/');
+  };
+
   return (
     <Sider width={150} collapsedWidth={90} trigger={null} collapsible collapsed={collapsed || isMobile}>
       <Row justify="center" align="middle">
@@ -64,13 +78,43 @@ const SiderMenu: React.FC<SiderMenuItemsProps> = ({ items }) => {
         </Col>
         <Divider style={dividerStyle} />
       </Row>
-      <Menu
-        theme="dark"
-        mode="inline"
-        selectedKeys={[siderMenuSelectedKey]}
-        items={items}
-        onSelect={handleOnSelectMenu}
-      ></Menu>
+
+      <div
+        style={{
+          height: '85%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          overflowY: 'auto',
+        }}
+      >
+        <Menu
+          theme="dark"
+          mode="inline"
+          selectedKeys={[siderMenuSelectedKey]}
+          items={items}
+          onSelect={handleOnSelectMenu}
+        />
+
+        {!!loggedIn && (
+          <div>
+            <Divider style={dividerStyle} />
+            <Menu
+              theme="dark"
+              mode="inline"
+              items={[
+                {
+                  key: '/logout',
+                  icon: <LogoutOutlined />,
+                  label: 'Salir',
+                },
+              ]}
+              onSelect={onLogout}
+              style={{ marginTop: 'auto' }} // Ensures it stays at the bottom
+            />
+          </div>
+        )}
+      </div>
     </Sider>
   );
 };
