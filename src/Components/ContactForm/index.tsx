@@ -1,6 +1,6 @@
 import { Button, Card, Checkbox, Col, Form, Input, message, Row, Typography } from 'antd';
 import { Content } from 'antd/es/layout/layout';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useReceiveEmailMutation, useSendVerificationCodeEmailMutation } from '../../Api/orthopedicSpineApi';
 
 const { Title, Text, Link } = Typography;
@@ -15,11 +15,15 @@ export const ContactForm: React.FC = () => {
 
   const [verificationCodeSent, setVerificationCodeSent] = useState(false);
   const [verificationCode, setVerificationCode] = useState<string>('');
+  const [codeExpiredTime, setCodeExpiredTime] = useState<number | null>(null);
+  const [remainingTime, setRemainingTime] = useState<number | null>(null);
 
   const handleReset = useCallback(() => {
     form.resetFields();
     setVerificationCodeSent(false);
     setVerificationCode('');
+    setCodeExpiredTime(null);
+    setRemainingTime(null);
   }, [form]);
 
   const onSendVerificationCode = useCallback(async () => {
@@ -39,7 +43,8 @@ export const ContactForm: React.FC = () => {
 
       setVerificationCodeSent(true);
       setVerificationCode(response.verificationCode);
-      console.log('Verification code:', response.verificationCode);
+      console.log('Verification code : ', response.verificationCode);
+      setCodeExpiredTime(Date.now() + 100000); //300000 Set expiration time to 5 minutes from now
 
       message.success('Código de verificación enviado con éxito');
     } catch {
@@ -55,8 +60,11 @@ export const ContactForm: React.FC = () => {
           message.error('Por favor, ingrese el código de verificación.');
           return;
         }
+        if (Date.now() > (codeExpiredTime ?? 0)) {
+          message.error('El código de verificación ha expirado. Inténtelo de nuevo.');
+          return;
+        }
 
-        console.log('codes :', verificationCodeValue, verificationCode);
         if (verificationCodeValue !== String(verificationCode)) {
           message.error('Código de verificación incorrecto. Inténtelo de nuevo.');
           return;
@@ -82,8 +90,29 @@ export const ContactForm: React.FC = () => {
         message.error('Error al enviar el mensaje. Inténtelo de nuevo.');
       }
     },
-    [receiveEmail, handleReset, verificationCodeSent, verificationCode, form],
+    [receiveEmail, handleReset, verificationCodeSent, verificationCode, codeExpiredTime, form],
   );
+
+  // Update remaining time every second
+  useEffect(() => {
+    if (codeExpiredTime) {
+      const interval = setInterval(() => {
+        const timeLeft = codeExpiredTime - Date.now();
+        setRemainingTime(timeLeft > 0 ? timeLeft : 0);
+
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          setVerificationCodeSent(false);
+          setVerificationCode('');
+          message.error('El código de verificación ha expirado. Por favor, re-genere el código.');
+          setCodeExpiredTime(null);
+          setRemainingTime(null);
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [codeExpiredTime]);
 
   return (
     <Content style={{ alignContent: 'center' }}>
@@ -153,6 +182,11 @@ export const ContactForm: React.FC = () => {
             >
               <Input placeholder="Código de verificación" />
             </Form.Item>
+          )}
+          {remainingTime && (
+            <Text type="secondary">
+              El Tiempo restante para ingrear el código: {Math.floor(remainingTime / 1000)} segundos
+            </Text>
           )}
 
           <Form.Item
