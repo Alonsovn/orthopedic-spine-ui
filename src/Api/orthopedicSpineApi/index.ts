@@ -100,9 +100,16 @@ export const orthopedicSpineApi = createApi({
     }),
 
     //Email
-    sendEmail: builder.mutation({
+    receiveEmail: builder.mutation({
       query: (body) => ({
-        url: 'email/send-email/',
+        url: 'email/receive-email/',
+        method: 'POST',
+        body,
+      }),
+    }),
+    sendVerificationCodeEmail: builder.mutation({
+      query: (body) => ({
+        url: `email/send-verification-code-email?email=${body.email}`,
         method: 'POST',
         body,
       }),
@@ -112,5 +119,10 @@ export const orthopedicSpineApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useLoginMutation, useGetTestimonialsQuery, useCreateTestimonialMutation, useSendEmailMutation } =
-  orthopedicSpineApi;
+export const {
+  useLoginMutation,
+  useGetTestimonialsQuery,
+  useCreateTestimonialMutation,
+  useReceiveEmailMutation,
+  useSendVerificationCodeEmailMutation,
+} = orthopedicSpineApi;
