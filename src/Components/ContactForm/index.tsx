@@ -1,7 +1,7 @@
 import { Button, Card, Checkbox, Col, Form, Input, message, Row, Typography } from 'antd';
 import { Content } from 'antd/es/layout/layout';
-import { useCallback } from 'react';
-import { useSendEmailMutation } from '../../Api/orthopedicSpineApi';
+import { useCallback, useState } from 'react';
+import { useReceiveEmailMutation, useSendVerificationCodeEmailMutation } from '../../Api/orthopedicSpineApi';
 
 const { Title, Text, Link } = Typography;
 
@@ -10,14 +10,59 @@ const initialFormValues = { name: '', email: '', message: '', confirm: false };
 export const ContactForm: React.FC = () => {
   const [form] = Form.useForm();
 
-  const [sendEmail] = useSendEmailMutation();
+  const [receiveEmail] = useReceiveEmailMutation();
+  const [sendVerificationCodeEmail] = useSendVerificationCodeEmailMutation();
+
+  const [verificationCodeSent, setVerificationCodeSent] = useState(false);
+  const [verificationCode, setVerificationCode] = useState<string>('');
 
   const handleReset = useCallback(() => {
     form.resetFields();
+    setVerificationCodeSent(false);
+    setVerificationCode('');
   }, [form]);
+
+  const onSendVerificationCode = useCallback(async () => {
+    try {
+      const email = form.getFieldValue('email');
+      if (!email) {
+        message.error('Por favor ingrese su email primero.');
+        return;
+      }
+
+      const response = await sendVerificationCodeEmail({ email }).unwrap();
+
+      if (response.error) {
+        message.error('Error al enviar el código de verificación. Inténtelo de nuevo.');
+        return;
+      }
+
+      setVerificationCodeSent(true);
+      setVerificationCode(response.verificationCode);
+      console.log('Verification code:', response.verificationCode);
+
+      message.success('Código de verificación enviado con éxito');
+    } catch {
+      message.error('Error al enviar el código de verificación. Inténtelo de nuevo.');
+    }
+  }, [form, sendVerificationCodeEmail]);
 
   const onSubmitContactForm = useCallback(
     async (values: { name: string; email: string; message: string; confirm: boolean }) => {
+      if (verificationCodeSent) {
+        const verificationCodeValue = form.getFieldValue('verificationCode')?.trim() || '';
+        if (!verificationCodeValue) {
+          message.error('Por favor, ingrese el código de verificación.');
+          return;
+        }
+
+        console.log('codes :', verificationCodeValue, verificationCode);
+        if (verificationCodeValue !== String(verificationCode)) {
+          message.error('Código de verificación incorrecto. Inténtelo de nuevo.');
+          return;
+        }
+      }
+
       try {
         handleReset();
         const payload = {
@@ -25,7 +70,7 @@ export const ContactForm: React.FC = () => {
           subject: values.name,
           message: values.message,
         };
-        const response = await sendEmail(payload).unwrap();
+        const response = await receiveEmail(payload).unwrap();
 
         if (response.error) {
           message.error('Error al enviar el mensaje. Inténtelo de nuevo.');
@@ -37,7 +82,7 @@ export const ContactForm: React.FC = () => {
         message.error('Error al enviar el mensaje. Inténtelo de nuevo.');
       }
     },
-    [sendEmail, handleReset],
+    [receiveEmail, handleReset, verificationCodeSent, verificationCode, form],
   );
 
   return (
@@ -88,6 +133,28 @@ export const ContactForm: React.FC = () => {
             <Input placeholder="Su email" />
           </Form.Item>
 
+          <Form.Item>
+            <Button type="primary" onClick={onSendVerificationCode}>
+              Enviar código de verificación
+            </Button>
+          </Form.Item>
+
+          {!!verificationCodeSent && (
+            <Form.Item
+              label="Código de verificación"
+              name="verificationCode"
+              tooltip={{ title: 'Este campo es requerido' }}
+              rules={[
+                {
+                  required: true,
+                  message: 'Por favor ingrese el código de verificación',
+                },
+              ]}
+            >
+              <Input placeholder="Código de verificación" />
+            </Form.Item>
+          )}
+
           <Form.Item
             label="Su mensaje"
             name="message"
@@ -127,7 +194,7 @@ export const ContactForm: React.FC = () => {
             </Col>
             <Col>
               <Button type="primary" htmlType="submit" style={{ marginLeft: '10px' }}>
-                ENVIAR
+                Enviar
               </Button>
             </Col>
           </Row>
