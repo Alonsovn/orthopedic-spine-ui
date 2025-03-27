@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Col, Form, Input, Layout, message, Row, Typography } from 'antd';
+import { Button, Card, Checkbox, Col, Form, Input, Layout, message, Progress, Row, Typography } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { useReceiveEmailMutation, useSendVerificationCodeEmailMutation } from '../../Api/orthopedicSpineApi';
 import { motion } from 'framer-motion';
@@ -9,6 +9,7 @@ const { Title, Text, Link } = Typography;
 const { Content } = Layout;
 
 const initialFormValues = { name: '', email: '', message: '', confirm: false };
+const maxCodeDuration = 300000; //5 minutes
 
 export const ContactForm: React.FC = () => {
   const [form] = Form.useForm();
@@ -71,7 +72,7 @@ export const ContactForm: React.FC = () => {
 
       setVerificationCodeSent(true);
       setVerificationCode(response.verificationCode);
-      setCodeExpirationTime(Date.now() + 300000); //300000 Set expiration time to 5 minutes from now
+      setCodeExpirationTime(Date.now() + maxCodeDuration); //300000 Set expiration time to 5 minutes from now
 
       message.success('Código de verificación enviado con éxito');
     } catch {
@@ -212,9 +213,8 @@ export const ContactForm: React.FC = () => {
                 >
                   <Input placeholder="Código" onChange={onVerificationCodeChange} maxLength={4} style={inputStyle} />
                 </Form.Item>
-                <Text type="secondary">
-                  Tiempo restante para ingresar el código: {Math.floor(remainingTime / 1000)} segundos
-                </Text>
+                <Text type="secondary">Tiempo restante para ingresar el código</Text>
+                <Progress percent={(remainingTime / maxCodeDuration) * 100} showInfo={false} />
                 <br />
                 <Text type="secondary">
                   Si no ves el correo, revisa también tu carpeta de spam o correo no deseado.
