@@ -12,6 +12,7 @@ const { Title, Paragraph } = Typography;
 const { Content } = Layout;
 
 export interface Testimonial {
+  id?: string;
   firstName: string;
   lastName: string;
   rating: number;
@@ -52,14 +53,8 @@ const Testimonials: React.FC = () => {
   };
 
   const handleAddTestimonial = useCallback(
-    async (values: { firstName: string; lastName: string; rating: number; comment: string }) => {
+    async (newTestimonial: Testimonial) => {
       try {
-        const newTestimonial: Testimonial = {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          rating: values.rating,
-          comment: values.comment,
-        };
         const response = await createTestimonial(newTestimonial).unwrap();
         if (response.error) {
           message.error('Error al agregar un testimonio. Inténtelo de nuevo.');
