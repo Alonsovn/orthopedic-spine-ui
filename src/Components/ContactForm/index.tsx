@@ -1,9 +1,12 @@
-import { Button, Card, Checkbox, Col, Form, Input, message, Row, Typography } from 'antd';
-import { Content } from 'antd/es/layout/layout';
+import { Button, Card, Checkbox, Col, Form, Input, Layout, message, Row, Typography } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { useReceiveEmailMutation, useSendVerificationCodeEmailMutation } from '../../Api/orthopedicSpineApi';
+import { motion } from 'framer-motion';
+import { useValidateEmail } from '../../Hooks';
+import { buttonStyle, formStyle, inputStyle } from '../../Style';
 
 const { Title, Text, Link } = Typography;
+const { Content } = Layout;
 
 const initialFormValues = { name: '', email: '', message: '', confirm: false };
 
@@ -13,17 +16,42 @@ export const ContactForm: React.FC = () => {
   const [receiveEmail] = useReceiveEmailMutation();
   const [sendVerificationCodeEmail] = useSendVerificationCodeEmailMutation();
 
-  const [verificationCodeSent, setVerificationCodeSent] = useState(false);
   const [verificationCode, setVerificationCode] = useState<string>('');
-  const [codeExpiredTime, setCodeExpiredTime] = useState<number | null>(null);
+  const [verificationCodeSent, setVerificationCodeSent] = useState(false);
+  const [codeExpirationTime, setCodeExpirationTime] = useState<number | null>(null);
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
+  const [showSendCodeVerification, setShowSendCodeVerification] = useState(false);
+
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [isSendEmailDisabled, setIsSendEmailDisabled] = useState(true);
+
+  const validateEmail = useValidateEmail;
+
+  const onValuesChange = useCallback(
+    (_, allValues) => {
+      // Enable send email button if all required fields are filled and email is verified
+      setIsSendEmailDisabled(
+        !allValues.name || !allValues.email || !allValues.message || !allValues.confirm || !isEmailVerified,
+      );
+
+      if (validateEmail(allValues.email)) {
+        setShowSendCodeVerification(true);
+      } else {
+        setShowSendCodeVerification(false);
+      }
+    },
+    [isEmailVerified, validateEmail],
+  );
 
   const handleReset = useCallback(() => {
     form.resetFields();
-    setVerificationCodeSent(false);
     setVerificationCode('');
-    setCodeExpiredTime(null);
+    setVerificationCodeSent(false);
+    setCodeExpirationTime(null);
     setRemainingTime(null);
+    setShowSendCodeVerification(false);
+    setIsEmailVerified(false);
+    setIsSendEmailDisabled(true);
   }, [form]);
 
   const onSendVerificationCode = useCallback(async () => {
@@ -43,8 +71,7 @@ export const ContactForm: React.FC = () => {
 
       setVerificationCodeSent(true);
       setVerificationCode(response.verificationCode);
-      console.log('Verification code : ', response.verificationCode);
-      setCodeExpiredTime(Date.now() + 100000); //300000 Set expiration time to 5 minutes from now
+      setCodeExpirationTime(Date.now() + 300000); //300000 Set expiration time to 5 minutes from now
 
       message.success('Código de verificación enviado con éxito');
     } catch {
@@ -54,23 +81,6 @@ export const ContactForm: React.FC = () => {
 
   const onSubmitContactForm = useCallback(
     async (values: { name: string; email: string; message: string; confirm: boolean }) => {
-      if (verificationCodeSent) {
-        const verificationCodeValue = form.getFieldValue('verificationCode')?.trim() || '';
-        if (!verificationCodeValue) {
-          message.error('Por favor, ingrese el código de verificación.');
-          return;
-        }
-        if (Date.now() > (codeExpiredTime ?? 0)) {
-          message.error('El código de verificación ha expirado. Inténtelo de nuevo.');
-          return;
-        }
-
-        if (verificationCodeValue !== String(verificationCode)) {
-          message.error('Código de verificación incorrecto. Inténtelo de nuevo.');
-          return;
-        }
-      }
-
       try {
         handleReset();
         const payload = {
@@ -90,150 +100,178 @@ export const ContactForm: React.FC = () => {
         message.error('Error al enviar el mensaje. Inténtelo de nuevo.');
       }
     },
-    [receiveEmail, handleReset, verificationCodeSent, verificationCode, codeExpiredTime, form],
+    [receiveEmail, handleReset],
   );
+
+  const onVerificationCodeChange = (value) => {
+    const inputCode = String(value.target.value).trim() || '';
+    if (inputCode === String(verificationCode).trim()) {
+      setIsEmailVerified(true);
+    } else {
+      setIsEmailVerified(false);
+    }
+  };
 
   // Update remaining time every second
   useEffect(() => {
-    if (codeExpiredTime) {
+    setIsSendEmailDisabled(!isEmailVerified);
+
+    if (codeExpirationTime) {
+      const email = form.getFieldValue('email');
+      if (!email) {
+        setShowSendCodeVerification(false);
+      }
+
       const interval = setInterval(() => {
-        const timeLeft = codeExpiredTime - Date.now();
+        const timeLeft = codeExpirationTime - Date.now();
         setRemainingTime(timeLeft > 0 ? timeLeft : 0);
 
         if (timeLeft <= 0) {
           clearInterval(interval);
           setVerificationCodeSent(false);
           setVerificationCode('');
-          message.error('El código de verificación ha expirado. Por favor, re-genere el código.');
-          setCodeExpiredTime(null);
+          setCodeExpirationTime(null);
           setRemainingTime(null);
+          setIsEmailVerified(false);
+          message.error('Código expirado. Reenvíe uno nuevo.');
         }
       }, 1000);
 
       return () => clearInterval(interval);
     }
-  }, [codeExpiredTime]);
+  }, [codeExpirationTime, isEmailVerified, form]);
 
   return (
-    <Content style={{ alignContent: 'center' }}>
-      <Card style={{ width: '100%', alignContent: 'center' }}>
-        <Title level={4} style={{ marginBottom: 0, marginTop: 0 }}>
-          Envíe un mensaje
-        </Title>
-        <Text type="secondary">Los campos marcados con "*" son obligatorios.</Text>
+    <Content>
+      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+        <Card style={formStyle}>
+          <Title level={4}>Envíe un mensaje</Title>
+          <Text type="secondary">Los campos marcados con "*" son obligatorios.</Text>
 
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={onSubmitContactForm}
-          autoComplete="off"
-          initialValues={initialFormValues}
-          style={{ marginTop: 20 }}
-        >
-          <Form.Item
-            label="Su nombre"
-            name="name"
-            tooltip={{ title: 'Este campo es requerido' }}
-            rules={[
-              {
-                required: true,
-                message: 'Por favor ingrese su nombre',
-              },
-            ]}
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={onSubmitContactForm}
+            onValuesChange={onValuesChange}
+            autoComplete="off"
+            initialValues={initialFormValues}
           >
-            <Input placeholder="Su nombre" />
-          </Form.Item>
-
-          <Form.Item
-            label="Su email"
-            name="email"
-            tooltip={{ title: 'Este campo es requerido' }}
-            rules={[
-              {
-                required: true,
-                message: 'Por favor ingrese su email',
-              },
-              {
-                type: 'email',
-                message: 'Ingrese un email válido',
-              },
-            ]}
-          >
-            <Input placeholder="Su email" />
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" onClick={onSendVerificationCode}>
-              Enviar código de verificación
-            </Button>
-          </Form.Item>
-
-          {!!verificationCodeSent && (
             <Form.Item
-              label="Código de verificación"
-              name="verificationCode"
-              tooltip={{ title: 'Este campo es requerido' }}
+              label="Su nombre"
+              name="name"
               rules={[
                 {
                   required: true,
-                  message: 'Por favor ingrese el código de verificación',
+                  message: 'Ingrese su nombre',
+                },
+                {
+                  pattern: /^[a-zA-Z\s]{1,}$/,
+                  message: 'El nombre debe contener solo letras',
                 },
               ]}
             >
-              <Input placeholder="Código de verificación" />
+              <Input placeholder="Su nombre" style={inputStyle} aria-label="Nombre" />
             </Form.Item>
-          )}
-          {remainingTime && (
-            <Text type="secondary">
-              El Tiempo restante para ingrear el código: {Math.floor(remainingTime / 1000)} segundos
-            </Text>
-          )}
 
-          <Form.Item
-            label="Su mensaje"
-            name="message"
-            tooltip={{ title: 'Este campo es requerido' }}
-            rules={[
-              {
-                required: true,
-                message: 'Por favor ingrese su mensaje',
-              },
-            ]}
-          >
-            <Input.TextArea placeholder="Su mensaje" rows={4} />
-          </Form.Item>
+            <Form.Item
+              label="Su email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: 'Ingrese su email',
+                },
+                {
+                  type: 'email',
+                  message: 'Ingrese un email válido',
+                },
+              ]}
+            >
+              <Input placeholder="tueemail@ejemplo.com" style={inputStyle} aria-label="Correo Electrónico" />
+            </Form.Item>
 
-          <Form.Item
-            name="confirm"
-            valuePropName="checked"
-            rules={[
-              {
-                validator: (_, value) => (value ? Promise.resolve() : Promise.reject('Debe confirmar para continuar.')),
-              },
-            ]}
-          >
-            <Checkbox>
-              He podido leer y entiendo la{' '}
-              <Link href="/privacy-and-cookies-policy" target="_blank">
-                Política de Privacidad y Cookies
-              </Link>
-            </Checkbox>
-          </Form.Item>
+            {showSendCodeVerification && !verificationCodeSent && (
+              <Form.Item>
+                <Button type="primary" onClick={onSendVerificationCode} style={buttonStyle}>
+                  Enviar código de verificación
+                </Button>
+              </Form.Item>
+            )}
 
-          <Row justify="end" gutter={10}>
-            <Col>
-              <Button type="default" onClick={handleReset}>
-                Limpiar
-              </Button>
-            </Col>
-            <Col>
-              <Button type="primary" htmlType="submit" style={{ marginLeft: '10px' }}>
-                Enviar
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </Card>
+            {verificationCodeSent && remainingTime && (
+              <>
+                <Form.Item
+                  label="Código de verificación"
+                  name="verificationCode"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Ingrese el código',
+                    },
+                  ]}
+                >
+                  <Input placeholder="Código" onChange={onVerificationCodeChange} maxLength={4} style={inputStyle} />
+                </Form.Item>
+                <Text type="secondary">
+                  Tiempo restante para ingresar el código: {Math.floor(remainingTime / 1000)} segundos
+                </Text>
+                <br />
+                <Text type="secondary">
+                  Si no ves el correo, revisa también tu carpeta de spam o correo no deseado.
+                </Text>
+              </>
+            )}
+
+            <Form.Item
+              label="Su mensaje"
+              name="message"
+              rules={[
+                {
+                  required: true,
+                  message: 'Ingrese su mensaje',
+                },
+              ]}
+            >
+              <Input.TextArea
+                placeholder="Escriba su mensaje aquí... "
+                style={{ ...inputStyle, height: '100px' }}
+                aria-label="Mensaje"
+                rows={4}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="confirm"
+              valuePropName="checked"
+              rules={[
+                {
+                  validator: (_, value) => (value ? Promise.resolve() : Promise.reject('Debe aceptar la política.')),
+                },
+              ]}
+            >
+              <Checkbox>
+                He leído y acepto la{' '}
+                <Link href="#/privacy-and-cookies-policy" target="_blank">
+                  Política de Privacidad
+                </Link>
+              </Checkbox>
+            </Form.Item>
+
+            <Row justify="end" gutter={10}>
+              <Col>
+                <Button type="default" onClick={handleReset} style={buttonStyle}>
+                  Limpiar
+                </Button>
+              </Col>
+              <Col>
+                <Button type="primary" disabled={isSendEmailDisabled} htmlType="submit" style={buttonStyle}>
+                  Enviar
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
+      </motion.div>
     </Content>
   );
 };
