@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../Redux/Slices/userSlice';
 import { useLoginMutation } from '../../Api/orthopedicSpineApi';
 import { useNavigate } from 'react-router-dom';
+import { buttonStyle } from '../../Style';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -58,7 +59,7 @@ const Login: React.FC = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" loading={isLoading} style={{ width: '100%' }}>
+          <Button type="primary" htmlType="submit" loading={isLoading} style={{ ...buttonStyle, width: '100%' }}>
             Iniciar sesion
           </Button>
         </Form.Item>
