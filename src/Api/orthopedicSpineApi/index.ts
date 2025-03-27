@@ -76,10 +76,10 @@ export const orthopedicSpineApi = createApi({
   endpoints: (builder) => ({
     // User auth
     login: builder.mutation({
-      query: (body) => ({
+      query: (payload) => ({
         url: 'user/login/',
         method: 'POST',
-        body,
+        body: payload,
       }),
       invalidatesTags: ['auth'],
     }),
@@ -91,27 +91,27 @@ export const orthopedicSpineApi = createApi({
     }),
 
     createTestimonial: builder.mutation({
-      query: (body) => ({
+      query: (payload) => ({
         url: 'testimonial/',
         method: 'POST',
-        body,
+        body: payload,
       }),
       invalidatesTags: ['testimonial'],
     }),
 
     //Email
     receiveEmail: builder.mutation({
-      query: (body) => ({
+      query: (payload) => ({
         url: 'email/receive-email/',
         method: 'POST',
-        body,
+        body: payload,
       }),
     }),
     sendVerificationCodeEmail: builder.mutation({
-      query: (body) => ({
-        url: `email/send-verification-code-email?email=${body.email}`,
+      query: (payload) => ({
+        url: `email/send-verification-code-email?email=${payload.email}`,
         method: 'POST',
-        body,
+        body: payload,
       }),
     }),
   }),
