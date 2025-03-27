@@ -7,6 +7,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../Redux/store';
 import { setTestimonials } from '../../Redux/Slices/testimonialSlice';
 import { useCreateTestimonialMutation, useGetTestimonialsQuery } from '../../Api/orthopedicSpineApi';
+import { buttonStyle } from '../../Style';
 const { Title, Paragraph } = Typography;
 const { Content } = Layout;
 
@@ -112,8 +113,14 @@ const Testimonials: React.FC = () => {
         </Row>
       )}
 
-      <Modal title="Agregar nuevo testimonio" open={showModalAddTestimonial} onCancel={cancelShowModal} footer={null}>
-        <Form form={form} onFinish={handleAddTestimonial}>
+      <Modal
+        title="Agregar nuevo testimonio"
+        open={showModalAddTestimonial}
+        onCancel={cancelShowModal}
+        footer={null}
+        destroyOnClose
+      >
+        <Form form={form} onFinish={handleAddTestimonial} layout="vertical">
           <Form.Item
             label="Nombre"
             name="firstName"
@@ -124,7 +131,7 @@ const Testimonials: React.FC = () => {
               },
             ]}
           >
-            <Input placeholder="Nombre" />
+            <Input placeholder="Nombre" autoFocus />
           </Form.Item>
           <Form.Item
             label="Apellido"
@@ -162,15 +169,17 @@ const Testimonials: React.FC = () => {
           >
             <Input.TextArea placeholder="Comentario" rows={4} />
           </Form.Item>
-          <Form.Item style={{ textAlign: 'right' }}>
-            <Space>
-              <Button type="default" onClick={cancelShowModal} style={{ marginRight: 10 }}>
-                Cancelar
-              </Button>
-              <Button type="primary" htmlType="submit">
-                Enviar
-              </Button>
-            </Space>
+          <Form.Item>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Space>
+                <Button onClick={cancelShowModal} style={buttonStyle}>
+                  Cancelar
+                </Button>
+                <Button type="primary" htmlType="submit" style={buttonStyle}>
+                  Enviar
+                </Button>
+              </Space>
+            </div>
           </Form.Item>
         </Form>
       </Modal>
