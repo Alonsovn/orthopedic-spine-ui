@@ -1,41 +1,51 @@
-import { Typography } from 'antd';
+import React from 'react';
+import { Typography, List } from 'antd';
+import { sectionData } from '../../Resources/Config/policyCookies';
 
 const { Title, Paragraph, Text } = Typography;
+
 const styleTitle: React.CSSProperties = {
-  textAlign: 'center',
+  textAlign: 'justify',
 };
 
-const PrivacyAndCookiesPolicy = () => {
+const PrivacyAndCookiesPolicy: React.FC = () => {
   return (
-    <>
-      <Typography>
-        <Title level={1} style={styleTitle}>
-          Politica de Privacidad y Cookies
-        </Title>
-        <Paragraph>
-          XXXXX. te informa sobre su Política de Privacidad respecto del tratamiento y protección de los datos de
-          carácter personal de los usuarios y clientes que puedan ser recabados por la navegación o contratación de
-          servicios a través del sitio Web https://orthopedic-spine.com.
-        </Paragraph>
+    <Typography>
+      <Title level={1} style={styleTitle}>
+        Política de Privacidad y Cookies
+      </Title>
 
-        <Paragraph>.....</Paragraph>
+      <Paragraph>
+        En Orthopedic Spine, nos comprometemos a proteger la privacidad de nuestros usuarios y al tratamiento adecuado
+        de sus datos personales conforme a la Ley, cuando corresponda.
+      </Paragraph>
 
-        <Title level={4}>Principios aplicados en el tratamiento de datos</Title>
-        <Paragraph>
-          <Text>
-            En el tratamiento de tus datos personales, el Titular aplicará los siguientes principios que se ajustan a
-            las exigencias del nuevo reglamento europeo de protección de datos ......
-          </Text>
-        </Paragraph>
+      {sectionData.map((section, index) => (
+        <div key={index}>
+          {section.title && <Title level={3}>{section.title}</Title>}
+          {section.subTitle && <Paragraph>{section.subTitle}</Paragraph>}
+          <List
+            dataSource={section.items}
+            renderItem={(item) => (
+              <List.Item>
+                <Text>{item}</Text>
+              </List.Item>
+            )}
+          />
+        </div>
+      ))}
 
-        <Title level={2}>Política de Cookies</Title>
-        <Paragraph>
-          Para que este sitio Web funcione correctamente necesita utilizar cookies, que es una información que se
-          almacena en tu navegador web. En la página Política de Cookies puedes consultar toda la información relativa a
-          la política de recogida, la finalidad y el tratamiento de las cookies. .....
-        </Paragraph>
-      </Typography>
-    </>
+      <Paragraph style={{ marginTop: '20px' }}>
+        <Text strong>Nunca vendemos tus datos personales.</Text>
+      </Paragraph>
+
+      <Title level={3}>Contacto</Title>
+      <Paragraph>
+        Si tienes preguntas o deseas ejercer tus derechos de privacidad:
+        <br />
+        <Text strong>Email:</Text> info@orthopedic-spine.com
+      </Paragraph>
+    </Typography>
   );
 };
 
