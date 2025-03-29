@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface Testimonial {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   rating: number;
