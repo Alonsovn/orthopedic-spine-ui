@@ -7,10 +7,6 @@ const { Title } = Typography;
 const { Content } = Layout;
 
 export const Contact: React.FC = () => {
-  const onSubmitContactForm = (values: { name: string; email: string; message: string; confirm: boolean }) => {
-    console.log('Form values: ', values);
-  };
-
   return (
     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 24 }} justify="center" wrap style={{ padding: 10 }}>
       <Col xs={24} sm={24} md={12} lg={12}>
@@ -25,7 +21,7 @@ export const Contact: React.FC = () => {
           <Title level={2} style={{ textAlign: 'center' }}>
             Contáctenos
           </Title>
-          <ContactForm onFinish={onSubmitContactForm} />
+          <ContactForm />
         </Content>
       </Col>
 
@@ -37,7 +33,9 @@ export const Contact: React.FC = () => {
           <ClinicLocation />
         </Content>
       </Col>
-      <ScheduleAppointment />
+      <Col xs={24} sm={24} md={12} lg={12}>
+        <ScheduleAppointment />
+      </Col>
     </Row>
   );
 };

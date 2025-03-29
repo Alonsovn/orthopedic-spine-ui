@@ -4,6 +4,7 @@ export const useLogoStyle = () => ({
   paddingInline: 5,
   marginTop: 10,
   borderRadius: 30,
+  cursor: 'pointer',
 });
 
 export const useDividerStyle = () => ({
@@ -24,3 +25,22 @@ export const useCollapsedButtonStyle = (isMobile: boolean) => ({
   height: 64,
   display: isMobile ? 'none' : 'block',
 });
+
+export const formStyle = {
+  borderRadius: '12px',
+  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+  padding: '24px',
+  backgroundColor: '#ffffff',
+};
+
+export const inputStyle = {
+  borderRadius: '8px',
+  height: '40px',
+};
+
+export const buttonStyle = {
+  height: '40px',
+  borderRadius: '8px',
+  fontWeight: 'bold',
+  transition: 'all 0.3s ease-in-out',
+};

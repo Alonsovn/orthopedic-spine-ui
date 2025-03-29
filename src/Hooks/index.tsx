@@ -12,3 +12,8 @@ export const useResponsive = () => {
 
   return isMobile;
 };
+
+export const useValidateEmail = (email: string) => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+};

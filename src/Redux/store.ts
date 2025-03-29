@@ -2,18 +2,18 @@ import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './Slices/userSlice';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import uiReducer from './Slices/uiSlice';
-import testimoniesReducer from './Slices/testimoniesSlice';
-import { backendServiceApi } from '../Api/backendServiceApi';
+import testimonialsReducer from './Slices/testimonialSlice';
+import { orthopedicSpineApi } from '../Api/orthopedicSpineApi';
 
 export const store = configureStore({
   reducer: {
-    [backendServiceApi.reducerPath]: backendServiceApi.reducer,
+    [orthopedicSpineApi.reducerPath]: orthopedicSpineApi.reducer,
     user: userReducer,
     ui: uiReducer,
-    testimonies: testimoniesReducer,
+    testimonial: testimonialsReducer,
   },
 
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(backendServiceApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(orthopedicSpineApi.middleware),
   devTools: import.meta.env.MODE !== 'production', // Enable Redux DevTools only in development
 });
 
