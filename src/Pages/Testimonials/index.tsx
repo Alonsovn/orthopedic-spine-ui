@@ -3,7 +3,7 @@ import { Avatar, Button, Card, Col, Form, Input, Layout, message, Modal, Rate, R
 import { motion } from 'framer-motion';
 import { testimonialsMockData } from '../../Resources/MockData/testimonials';
 import { useCallback, useEffect, useState } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '../../Redux/store';
 import {
   useCreateTestimonialMutation,

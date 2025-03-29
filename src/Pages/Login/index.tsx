@@ -35,7 +35,7 @@ const Login: React.FC = () => {
       navigate('/');
 
       message.success('¡Inicio de sesión exitoso!');
-    } catch (error) {
+    } catch {
       message.error('Inicio de sesión fallido. Por favor, verifica tus credenciales.');
     }
   };
