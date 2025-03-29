@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../../Redux/store';
 import { logout, refreshTokens } from '../../Redux/Slices/userSlice';
+import { BaseQueryFn, FetchArgs, FetchBaseQueryError, FetchBaseQueryMeta } from '@reduxjs/toolkit/query';
 
 interface RefreshTokenResponse {
   accessToken: string;
@@ -11,30 +12,44 @@ export const apiBaseUrl = 'http://localhost:8000/';
 const baseQuery = fetchBaseQuery({
   baseUrl: apiBaseUrl,
   prepareHeaders: (headers, { getState }) => {
-    const state = getState() as RootState;
-    const access_token = state.user.accessToken;
+    const { user } = getState() as RootState;
+    const access_token = user.accessToken;
     if (access_token) {
       headers.set('Authorization', `Bearer ${access_token}`);
     }
     return headers;
   },
+  credentials: 'include', // Ensures cookies are sent if needed
 });
 
-const baseQueryWithReAuth = async (args, api, extraOptions) => {
+const baseQueryWithReAuth: BaseQueryFn<
+  string | FetchArgs, // Args can be a string (endpoint URL) or an object with method, body, etc.
+  unknown, // Response type (unknown since different endpoints return different types)
+  FetchBaseQueryError, // Error type from fetchBaseQuery
+  object, // Extra options (not used in this case, so an empty object)
+  FetchBaseQueryMeta // Metadata returned by fetchBaseQuery
+> = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
   if (result.error && result.error.status === 401) {
     // Unauthorized error: try to refresh token
-    const state = api.getState() as RootState;
-    const refreshToken = state.user.refreshToken;
+    const { user } = api.getState() as RootState;
+    const refreshToken = user.refreshToken;
 
-    if (refreshToken) {
+    if (!refreshToken) {
+      // No refresh token available, logout user
+      api.dispatch(logout());
+      return result;
+    }
+
+    try {
       // Try refreshing the token
       const refreshResponse = await baseQuery(
         {
           url: 'user/refresh-token',
           method: 'POST',
           body: { refreshToken: refreshToken },
+          headers: { 'Content-Type': 'application/json' },
         },
         api,
         extraOptions,
@@ -56,8 +71,7 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
         // Refresh token failed, logout user
         api.dispatch(logout());
       }
-    } else {
-      // No refresh token available, force logout
+    } catch {
       api.dispatch(logout());
     }
   }
