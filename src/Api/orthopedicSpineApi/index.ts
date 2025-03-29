@@ -98,6 +98,13 @@ export const orthopedicSpineApi = createApi({
       }),
       invalidatesTags: ['testimonial'],
     }),
+    deleteTestimonial: builder.mutation({
+      query: (payload) => ({
+        url: `testimonial/${payload}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['testimonial'],
+    }),
 
     //Email
     receiveEmail: builder.mutation({
@@ -123,6 +130,7 @@ export const {
   useLoginMutation,
   useGetTestimonialsQuery,
   useCreateTestimonialMutation,
+  useDeleteTestimonialMutation,
   useReceiveEmailMutation,
   useSendVerificationCodeEmailMutation,
 } = orthopedicSpineApi;

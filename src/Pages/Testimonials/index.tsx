@@ -1,18 +1,21 @@
-import { PlusCircleFilled, UserOutlined } from '@ant-design/icons';
+import { DeleteFilled, PlusCircleFilled, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Card, Col, Form, Input, Layout, message, Modal, Rate, Row, Space, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { testimonialsMockData } from '../../Resources/MockData/testimonials';
 import { useCallback, useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../Redux/store';
-import { setTestimonials } from '../../Redux/Slices/testimonialSlice';
-import { useCreateTestimonialMutation, useGetTestimonialsQuery } from '../../Api/orthopedicSpineApi';
+import {
+  useCreateTestimonialMutation,
+  useDeleteTestimonialMutation,
+  useGetTestimonialsQuery,
+} from '../../Api/orthopedicSpineApi';
 import { buttonStyle } from '../../Style';
 const { Title, Paragraph } = Typography;
 const { Content } = Layout;
 
 export interface Testimonial {
-  id?: string;
+  id: string;
   firstName: string;
   lastName: string;
   rating: number;
@@ -20,9 +23,7 @@ export interface Testimonial {
 }
 
 const Testimonials: React.FC = () => {
-  const dispatch = useDispatch();
-
-  const testimonials = useSelector((state: RootState) => state.testimonial.testimonials);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [showModalAddTestimonial, setShowModalAddTestimonial] = useState(false);
   const [form] = Form.useForm();
 
@@ -35,14 +36,13 @@ const Testimonials: React.FC = () => {
 
   const { data: testimonialsData } = useGetTestimonialsQuery({});
   const [createTestimonial] = useCreateTestimonialMutation();
+  const [deleteTestimonial] = useDeleteTestimonialMutation();
 
   useEffect(() => {
     if (testimonialsData && testimonialsData?.length > 0) {
-      dispatch(setTestimonials(testimonialsData));
-    } else {
-      dispatch(setTestimonials(testimonialsMockData));
-    }
-  }, [testimonialsData, dispatch]);
+      setTestimonials(testimonialsData);
+    } else setTestimonials(testimonialsMockData);
+  }, [testimonialsData]);
 
   const handleShowModal = () => {
     setShowModalAddTestimonial(true);
@@ -71,6 +71,25 @@ const Testimonials: React.FC = () => {
     [createTestimonial, form],
   );
 
+  const handleDeleteTestimonial = async (testimonialId: string) => {
+    Modal.confirm({
+      title: '¿Estás seguro de que deseas eliminar este testimonio?',
+      content: 'Esta acción no se puede deshacer.',
+      okText: 'Sí, eliminar',
+      okType: 'danger',
+      cancelText: 'Cancelar',
+      async onOk() {
+        try {
+          await deleteTestimonial(testimonialId).unwrap();
+          message.success('Testimonio eliminado con éxito!');
+        } catch (error) {
+          console.error('Error al eliminar testimonio:', error);
+          message.error('No se pudo eliminar el testimonio. Inténtalo de nuevo.');
+        }
+      },
+    });
+  };
+
   return (
     <>
       <Title level={1}>Dicen de nostros...</Title>
@@ -87,6 +106,15 @@ const Testimonials: React.FC = () => {
                 <Card
                   style={{ margin: 16 }}
                   cover={<Avatar style={{ backgroundColor: '#1890ff' }} icon={<UserOutlined />} />}
+                  {...(!!loggedIn && {
+                    actions: [
+                      <Button
+                        type="text"
+                        icon={<DeleteFilled />}
+                        onClick={() => handleDeleteTestimonial(testimonial.id)}
+                      />,
+                    ],
+                  })}
                 >
                   <Title level={4}>
                     {testimonial.firstName} {testimonial.lastName}
