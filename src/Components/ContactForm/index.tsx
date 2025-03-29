@@ -4,9 +4,17 @@ import { useReceiveEmailMutation, useSendVerificationCodeEmailMutation } from '.
 import { motion } from 'framer-motion';
 import { useValidateEmail } from '../../Hooks';
 import { buttonStyle, formStyle, inputStyle } from '../../Style';
+import { ChangeEvent } from 'react';
 
 const { Title, Text, Link } = Typography;
 const { Content } = Layout;
+
+interface ContactFormValues {
+  name: string;
+  email: string;
+  message: string;
+  confirm: boolean;
+}
 
 const initialFormValues = { name: '', email: '', message: '', confirm: false };
 const maxCodeDuration = 300000; //5 minutes
@@ -29,7 +37,7 @@ export const ContactForm: React.FC = () => {
   const validateEmail = useValidateEmail;
 
   const onValuesChange = useCallback(
-    (_, allValues) => {
+    (_: unknown, allValues: ContactFormValues) => {
       // Enable send email button if all required fields are filled and email is verified
       setIsSendEmailDisabled(
         !allValues.name || !allValues.email || !allValues.message || !allValues.confirm || !isEmailVerified,
@@ -104,8 +112,8 @@ export const ContactForm: React.FC = () => {
     [receiveEmail, handleReset],
   );
 
-  const onVerificationCodeChange = (value) => {
-    const inputCode = String(value.target.value).trim() || '';
+  const onVerificationCodeChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const inputCode = String(event.target.value).trim() || '';
     if (inputCode === String(verificationCode).trim()) {
       setIsEmailVerified(true);
     } else {
