@@ -1,0 +1,16 @@
+api:
+  baseUrl: 'http://localhost:8000'
+  apiVersion: '/api/v1'
+  auth:
+    register: '/auth/register'
+    login: '/auth/login'
+    refreshToken: '/auth/refresh-token'
+
+  testimonial:
+    getAll: '/testimonial/get-all'
+    create: '/testimonial/create'
+    delete: '/testimonial/delete'
+
+  email:
+    send: '/email/send'
+    verify: '/email/verify'
