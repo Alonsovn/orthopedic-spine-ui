@@ -2,15 +2,16 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../../Redux/store';
 import { logout, refreshTokens } from '../../Redux/Slices/userSlice';
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, FetchBaseQueryMeta } from '@reduxjs/toolkit/query';
+import { getAppConfiguration } from '../../Config/configLoader';
 
 interface RefreshTokenResponse {
   accessToken: string;
   refreshToken: string;
 }
-export const apiBaseUrl = 'http://localhost:8000/';
+const appConfig = getAppConfiguration();
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: apiBaseUrl,
+  baseUrl: appConfig?.api?.baseUrl || '',
   prepareHeaders: (headers, { getState }) => {
     const { user } = getState() as RootState;
     const access_token = user.accessToken;
@@ -100,7 +101,7 @@ export const orthopedicSpineApi = createApi({
 
     //Testimonials
     getTestimonials: builder.query({
-      query: () => 'testimonial/all',
+      query: () => appConfig?.api?.endpoints?.testimonial?.getAll || '',
       providesTags: ['testimonial'],
     }),
 
