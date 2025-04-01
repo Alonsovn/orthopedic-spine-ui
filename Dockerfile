@@ -11,12 +11,6 @@ RUN npm install
 # Copy project files
 COPY . .
 
-# Load environment variables
-ARG VITE_APP_ENV
-ARG VITE_READ_ONLY_USER_PASSWORD
-ENV VITE_APP_ENV=$VITE_APP_ENV
-ENV VITE_READ_ONLY_USER_PASSWORD=$VITE_READ_ONLY_USER_PASSWORD
-
 # Build the app
 RUN npm run build
 
