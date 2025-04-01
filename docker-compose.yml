@@ -1,13 +1,13 @@
 version: '3.8'
 
 services:
-  frontend:
+  app:
+    container_name: orthopedic_spine_spa
     build:
       context: .
-      args:
-        VITE_APP_ENV: ${VITE_APP_ENV}
-        VITE_READ_ONLY_USER_PASSWORD: ${VITE_READ_ONLY_USER_PASSWORD}
     ports:
       - '80:80'
     env_file:
       - .env
+# Run
+#docker compose up --build

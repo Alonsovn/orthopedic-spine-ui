@@ -1,39 +1,33 @@
-FROM node:22-alpine as builder
+# Use a node image as base
+FROM node:18-alpine AS build
 
-# Working directory (where the application will live inside the container)
+# Set working directory
 WORKDIR /app
 
-# Adding `/app/node_modules/.bin` $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+# Copy package.json and package-lock.json
+COPY package.json package-lock.json ./
 
-# Installing all the dependencies of the application
-COPY package.json ./package.json
+# Install dependencies
+RUN npm install
 
-RUN node --version
-RUN npm --version
-RUN npm cache clean --force
-RUN rm -rf node_modules
-RUN export CI=false
-RUN npm install -g npm@latest
-RUN npm i 
+# Copy the rest of the app
+COPY . .
 
-# Copy app files
-COPY . ./
+# Build the Vite app
 RUN npm run build
 
-# production stage
-FROM nginx:1.27.1-alpine as production
+# Use a lightweight web server
+FROM nginx:alpine AS production
+WORKDIR /usr/share/nginx/html
 
-COPY --from=builder /app/build/ /usr/share/nginx/html
+# Copy build output
+COPY --from=build /app/dist . 
 
-# Change ownership to Nginx user
-RUN chown -R nginx:nginx /usr/share/nginx/html
-RUN chown -R 755 /usr/share/nginx/html
-
-# Copy custom Nginx configuration 
+# Ensure Nginx serves the correct files
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose the port the app runs on 
-EXPOSE 8080
+# Expose port
+EXPOSE 80
 
+# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
