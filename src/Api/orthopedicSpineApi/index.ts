@@ -7,10 +7,12 @@ interface RefreshTokenResponse {
   accessToken: string;
   refreshToken: string;
 }
-export const apiBaseUrl = 'http://localhost:8000/';
+
+const baseUrl = import.meta.env.VITE_BASE_URL || '';
+const apiVersion = import.meta.env.VITE_API_VERSION || 'api/v1/';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: apiBaseUrl,
+  baseUrl: `${baseUrl}${apiVersion}`,
   prepareHeaders: (headers, { getState }) => {
     const { user } = getState() as RootState;
     const access_token = user.accessToken;
@@ -100,7 +102,7 @@ export const orthopedicSpineApi = createApi({
 
     //Testimonials
     getTestimonials: builder.query({
-      query: () => 'testimonial/all',
+      query: () => 'testimonial/all/',
       providesTags: ['testimonial'],
     }),
 

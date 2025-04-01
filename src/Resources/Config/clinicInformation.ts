@@ -7,7 +7,7 @@ export const clinicInformation = {
   },
   schedule: ['Lunes a Viernes: 8:00 am - 5:00 pm', 'Sábados: 8:00 am - 12:00 pm'],
   contact: {
-    phones: ['+506 8888-8888', '+506 9999-9999'],
-    email: 'info.orthopedic_spine@clinics.com',
+    phones: ['+506 8910-3115'],
+    email: 'orthopedicspineinfo@gmail.com',
   },
 };
