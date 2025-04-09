@@ -19,7 +19,9 @@ export const routes: RouteItem[] = [
   { path: 'about-us', element: <AboutUs /> },
   { path: 'search', element: <SearchResults /> },
   { path: 'privacy-and-cookies-policy', element: <PrivacyAndCookiesPolicy /> },
-  { path: 'login', element: <Login /> },
+  { path: 'login', isPublicOnly: true, element: <Login /> },
+  { path: 'logout', isPrivate: true, element: <div>Logout</div> },
+  { path: 'admin', isPrivate: true, element: <h1>Adming page</h1> },
 
   { path: '*', element: <NotFound /> },
 ];
