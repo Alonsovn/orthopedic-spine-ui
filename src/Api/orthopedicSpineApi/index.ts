@@ -102,7 +102,7 @@ export const orthopedicSpineApi = createApi({
 
     //Testimonials
     getTestimonials: builder.query({
-      query: () => 'testimonial/all/',
+      query: () => 'testimonial/all',
       providesTags: ['testimonial'],
     }),
 
