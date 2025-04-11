@@ -29,7 +29,6 @@ export const useCollapsedButtonStyle = (isMobile: boolean) => ({
 export const formStyle = {
   borderRadius: '12px',
   boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-  padding: '24px',
   backgroundColor: '#ffffff',
 };
 
