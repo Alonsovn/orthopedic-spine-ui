@@ -5,6 +5,6 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   assetsInclude: ['**/*.JPG'],
-  // base: '/',
-  base: '/orthopedic-spine-ui/',
+  base: '/',
+  // base: '/orthopedic-spine-ui/',
 });
