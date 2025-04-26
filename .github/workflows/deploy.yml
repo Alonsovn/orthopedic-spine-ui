@@ -45,6 +45,8 @@ jobs:
         run: npm run type-check
 
   deploy:
+    # Only run the deploy job on pushes to the main branch
+    if: github.ref == 'refs/heads/main'
     needs: check_code
     runs-on: ubuntu-latest
 
