@@ -1,4 +1,4 @@
-name: Deploy React App to GitHub Pages
+name: Deploy React App to AWS ECS
 
 on:
   push:
@@ -10,6 +10,13 @@ on:
 
 permissions:
   contents: write
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: orthopedic-spine-ui
+  ECS_CLUSTER: clinic-cluster
+  ECS_SERVICE: frontend-service
+  CONTAINER_NAME: frontend
 
 jobs:
   check_code:
@@ -42,26 +49,46 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set Git User Identity
         run: |
           git config --global user.name "Alonso VN"
           git config --global user.email "alonsonh94@gmail.com"
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
         with:
-          node-version: 18
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build Project
-        run: npm run build
-
-      - name: Deploy to GitHub Pages
+      - name: Build, tag, and push image to ECR
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run deploy
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
+          docker tag $ECR_REPOSITORY:$IMAGE_TAG ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Fill in the new image ID in the ECS task definition
+        run: |
+          IMAGE_URI="${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest"
+          sed -i "s|<IMAGE_URI>|$IMAGE_URI|g" ecs-task-def.json
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ecs-task-def.json
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
+
+      - name: Show deployed image URI
+        run: |
+          echo "Deployed image URI: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest"
