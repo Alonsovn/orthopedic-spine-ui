@@ -1,37 +1,44 @@
-# Use a node image as base
-FROM node:18-alpine AS build
+FROM node:24-alpine as builder
 
-# Set working directory
+# Working directory (where the application will live inside the container)
 WORKDIR /app
 
-# Accept environment as build argument (e.g. VITE_APP_ENV=production)
-ARG VITE_APP_ENV=production
-ENV VITE_APP_ENV=$VITE_APP_ENV
+# Accept build mode as an argument (default to production)
+ARG MODE=production
+ENV MODE=$APP_ENV
 
-# Copy package.json and package-lock.json
-COPY package.json package-lock.json ./
+# Adding `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-# Install dependencies
-RUN npm ci
+# Installing all the dependencies of the application
+COPY package.json ./package.json
 
-# Copy the rest of the app
-COPY . .
-
-# Vite will load .env.$VITE_APP_ENV
-RUN npm run build -- --mode $VITE_APP_ENV
-
-# Use a lightweight web server
-FROM nginx:alpine AS production
+RUN npm cache clean --force && rm -rf node_modules
+RUN export CI=false
+RUN npm install -g npm@latest
+RUN npm install
 
 
-# Copy build output to NGINX html directory
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Copy app files
+COPY . ./
 
-# Ensure Nginx serves the correct files
+# Build the app using the passed mode
+RUN npm run build -- --mode $APP_ENV
+#RUN npm run build:development 
+
+# Production stage
+FROM nginx:1.27.5-alpine as production
+
+COPY --from=builder /app/build/ /usr/share/nginx/html
+
+# Change ownership to Nginx user
+RUN chown -R nginx:nginx /usr/share/nginx/html
+RUN chmod -R 755 /usr/share/nginx/html
+
+# Copy custom Nginx configuration 
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port
-EXPOSE 80
+# Expose the port the app runs on 
+EXPOSE 8080
 
-# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
