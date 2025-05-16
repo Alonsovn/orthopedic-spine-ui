@@ -4,8 +4,8 @@ FROM node:24-alpine as builder
 WORKDIR /app
 
 # Accept build mode as an argument (default to production)
-ARG APP_ENV=production
-ENV APP_ENV=$APP_ENV
+ARG VITE_APP_ENV=production
+ENV VITE_APP_ENV=$VITE_APP_ENV
 
 # Adding `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
@@ -23,8 +23,7 @@ RUN npm install
 COPY . ./
 
 # Build the app using the passed mode
-RUN npm run build -- --mode $APP_ENV
-#RUN npm run build:development 
+RUN npm run build -- --mode $VITE_APP_ENV
 
 # Production stage
 FROM nginx:1.27.5-alpine as production
