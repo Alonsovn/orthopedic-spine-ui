@@ -4,8 +4,8 @@ FROM node:24-alpine as builder
 WORKDIR /app
 
 # Accept build mode as an argument (default to production)
-ARG MODE=production
-ENV MODE=$APP_ENV
+ARG APP_ENV=production
+ENV APP_ENV=$APP_ENV
 
 # Adding `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
