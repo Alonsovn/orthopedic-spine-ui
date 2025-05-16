@@ -74,7 +74,7 @@ jobs:
       - name: Build, tag, and push image to ECR
         run: |
           docker build \
-            --build-arg VITE_APP_ENV=${{ secrets.APP_ENV }} \
+            --build-arg VITE_APP_ENV=${{ secrets.VITE_APP_ENV }} \
             -t $ECR_REPOSITORY:$IMAGE_TAG .
           docker tag $ECR_REPOSITORY:$IMAGE_TAG ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
           docker push ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
