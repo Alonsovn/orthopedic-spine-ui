@@ -19,6 +19,7 @@ RUN npm ci
 COPY . .
 
 # Build app with appropriate environment
+RUN echo "Building with VITE_APP_ENV=$VITE_APP_ENV"
 RUN npm run build -- --mode $VITE_APP_ENV
 
 # Stage 2: Serve app with Nginx
