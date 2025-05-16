@@ -6,13 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:dev": "tsc -b && vite build --mode development",
+    "build:stage": "tsc -b && vite build --mode stage",
+    "build:prod": "tsc -b && vite build --mode production",
     "lint": "eslint --max-warnings=0 'src/**/*.{ts,tsx,js,jsx}'",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,scss,md}'",
     "format:check": "prettier --check 'src/**/*.{ts,tsx,js,jsx,json,css,scss,md}'",
     "type-check": "tsc --noEmit",
     "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist -b gh-pages -r https://x-access-token:${GITHUB_TOKEN}@github.com/Alonsovn/orthopedic-spine-ui.git"
+    "predeploy": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -44,7 +46,6 @@
     "eslint": "^9.17.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
-    "gh-pages": "^6.3.0",
     "globals": "^15.14.0",
     "prettier": "^3.5.2",
     "typescript": "~5.6.2",
