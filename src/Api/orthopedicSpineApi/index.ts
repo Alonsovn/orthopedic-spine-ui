@@ -8,7 +8,7 @@ interface RefreshTokenResponse {
   refreshToken: string;
 }
 
-const baseUrl = import.meta.env.VITE_BASE_URL || '';
+const baseUrl = import.meta.env.VITE_BASE_API_URL || '';
 const apiVersion = import.meta.env.VITE_API_VERSION || 'api/v1/';
 
 const baseQuery = fetchBaseQuery({
