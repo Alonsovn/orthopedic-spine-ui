@@ -1,13 +1,41 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  app:
-    container_name: orthopedic_spine_spa
+  orthopedic_spine_spa: # Using the builder stage for development
     build:
       context: .
-    ports:
-      - '80:80'
+      dockerfile: Dockerfile
+      target: builder # Use the builder stage for development
+      args:
+        MODE: development # Change to staging or production as needed
     env_file:
-      - .env
+      - .env.development
+    ports:
+      - "5173:5173" # Vite default port
+    volumes:
+      - .:/app
+      - /app/node_modules # Prevent host node_modules from conflicting
+    command: npm run dev # Start the Vite development server
+    environment:
+      - MODE=development
+
+  nginx: # Using Nginx for production
+    image: nginx:1.27.1-alpine
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./dist:/usr/share/nginx/html
+    ports:
+      - "80:80"
+    depends_on:
+      - orthopedic_spine_spa
+
+
 # Run
 #docker compose up --build
+
+
+# Local dev
+# podman-compose build --build-arg MODE=development && podman-compose up -d
+
+# Prod
+# podman-compose build --build-arg MODE=production && podman-compose up -d
