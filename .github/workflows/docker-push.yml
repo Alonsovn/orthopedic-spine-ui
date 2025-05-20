@@ -1,0 +1,47 @@
+name: Build and Push Docker Image to ECR
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set Image Tag
+        id: vars
+        run: |
+          IMAGE_TAG=latest
+          echo "tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo "repo=${{ secrets.ECR_REPO_NAME }}" >> $GITHUB_OUTPUT
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ steps.vars.outputs.repo }}:${{ steps.vars.outputs.tag }} .
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ steps.vars.outputs.repo }}:${{ steps.vars.outputs.tag }}
+
+      - name: Notify Infrastructure Repo to Deploy
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GH_PAT }} # create a GitHub personal access token with "repo" scope
+          repository: Alonsovn/clinic-infra
+          event-type: frontend-updated
