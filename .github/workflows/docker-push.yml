@@ -36,7 +36,8 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build --build-arg VITE_APP_ENV=${{ secrets.VITE_APP_ENV }} -t ${{ steps.login-ecr.outputs.registry }}/${{ steps.vars.outputs.repo }}:${{ steps.vars.outputs.tag }} .
+          docker build --build-arg VITE_APP_ENV=${{ secrets.VITE_APP_ENV }} 
+          -t ${{ steps.login-ecr.outputs.registry }}/${{ steps.vars.outputs.repo }}:${{ steps.vars.outputs.tag }} .
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ steps.vars.outputs.repo }}:${{ steps.vars.outputs.tag }}
 
       - name: Notify Infrastructure Repo to Deploy
