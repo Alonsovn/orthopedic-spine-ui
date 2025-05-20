@@ -1,43 +1,42 @@
-FROM node:24-alpine as builder
+# Stage 1: Build the React app
+FROM node:24-alpine AS builder
 
-# Working directory (where the application will live inside the container)
+# Set working directory
 WORKDIR /app
 
-# Accept build mode as an argument (default to production)
+# Accept build environment (default to production)
 ARG VITE_APP_ENV=production
 ENV VITE_APP_ENV=$VITE_APP_ENV
 
-# Adding `/app/node_modules/.bin` to $PATH
+# Add node modules to path
 ENV PATH /app/node_modules/.bin:$PATH
 
-# Installing all the dependencies of the application
-COPY package.json ./package.json
+# Install dependencies
+COPY package.json package-lock.json ./
+RUN npm ci
 
-RUN npm cache clean --force && rm -rf node_modules
-RUN export CI=false
-RUN npm install -g npm@latest
-RUN npm install
+# Copy app source
+COPY . .
 
-
-# Copy app files
-COPY . ./
-
-# Build the app using the passed mode
+# Build app with appropriate environment
+RUN echo "Building with VITE_APP_ENV=$VITE_APP_ENV"
 RUN npm run build -- --mode $VITE_APP_ENV
 
-# Production stage
-FROM nginx:1.27.5-alpine as production
+# Stage 2: Serve app with Nginx
+FROM nginx:1.27.5-alpine AS production
 
-COPY --from=builder /app/build/ /usr/share/nginx/html
+# Copy built app from builder
+COPY --from=builder /app/build /usr/share/nginx/html
 
-# Change ownership to Nginx user
-RUN chown -R nginx:nginx /usr/share/nginx/html
-RUN chmod -R 755 /usr/share/nginx/html
-
-# Copy custom Nginx configuration 
+# Copy custom nginx config
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose the port the app runs on 
+# Permissions
+RUN chown -R nginx:nginx /usr/share/nginx/html \
+ && chmod -R 755 /usr/share/nginx/html
+
+# Expose app port
 EXPOSE 8080
 
+# Start nginx
 CMD ["nginx", "-g", "daemon off;"]
