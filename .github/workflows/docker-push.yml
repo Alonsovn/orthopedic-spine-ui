@@ -29,18 +29,6 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Set Image Tag
-        id: vars
-        run: |
-          IMAGE_TAG=latest
-          echo "tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
-          echo "repo=${{ secrets.ECR_REPO_NAME }}" >> $GITHUB_OUTPUT
-
-      #   - name: Build and Push Docker Image
-      #     run: |
-      #       docker build --build-arg VITE_APP_ENV=${{ secrets.VITE_APP_ENV }} -t ${{ steps.login-ecr.outputs.registry }}/${{ steps.vars.outputs.repo }}:${{ steps.vars.outputs.tag }} .
-      #       docker push ${{ steps.login-ecr.outputs.registry }}/${{ steps.vars.outputs.repo }}:${{ steps.vars.outputs.tag }}
-
       - name: Build, tag, and push image to ECR
         run: |
           docker build \
@@ -52,6 +40,6 @@ jobs:
       - name: Notify Infrastructure Repo to Deploy
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.GH_PAT }} # create a GitHub personal access token with "repo" scope
+          token: ${{ secrets.GH_PAT }} # PAT with "repo" scope
           repository: Alonsovn/clinic-infra
           event-type: frontend-updated
