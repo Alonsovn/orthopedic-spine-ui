@@ -7,6 +7,8 @@ on:
 
 env:
   AWS_REGION: us-east-1
+  ECR_REPOSITORY: orthopedic-spine-ui
+  IMAGE_TAG: latest
 
 jobs:
   build-and-push:
@@ -27,22 +29,17 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Set Image Tag
-        id: vars
+      - name: Build, tag, and push image to ECR
         run: |
-          IMAGE_TAG=latest
-          echo "tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
-          echo "repo=${{ secrets.ECR_REPO_NAME }}" >> $GITHUB_OUTPUT
-
-      - name: Build and Push Docker Image
-        run: |
-          docker build --build-arg VITE_APP_ENV=${{ secrets.VITE_APP_ENV }} \ 
-          -t ${{ steps.login-ecr.outputs.registry }}/${{ steps.vars.outputs.repo }}:${{ steps.vars.outputs.tag }} .
-          docker push ${{ steps.login-ecr.outputs.registry }}/${{ steps.vars.outputs.repo }}:${{ steps.vars.outputs.tag }}
+          docker build \
+            --build-arg VITE_APP_ENV=${{ secrets.VITE_APP_ENV }} \
+            -t $ECR_REPOSITORY:$IMAGE_TAG .
+          docker tag $ECR_REPOSITORY:$IMAGE_TAG ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Notify Infrastructure Repo to Deploy
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.GH_PAT }} # create a GitHub personal access token with "repo" scope
+          token: ${{ secrets.GH_PAT }} # PAT with "repo" scope
           repository: Alonsovn/clinic-infra
           event-type: frontend-updated
