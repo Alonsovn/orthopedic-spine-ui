@@ -71,6 +71,6 @@ jobs:
       - name: Notify Infrastructure Repo to Deploy
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.GH_PAT }} # PAT with "repo" scope
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # PAT with "repo" scope
           repository: Alonsovn/clinic-infra
           event-type: frontend-updated
